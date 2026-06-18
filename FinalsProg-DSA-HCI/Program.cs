@@ -14,6 +14,7 @@ namespace FinalsProg_DSA_HCI
         static Dictionary<string, string[]> userDatabase = new Dictionary<string, string[]>();
         static string currentLoggedInUser = ""; //for current user thats logged in
         static string RequestsFilePath = "requests.txt"; //storing requests
+        static string AccomplishedFilePath = "accomplished.txt"; //for history
 
         static void Main(string[] args)
         {
@@ -54,6 +55,9 @@ namespace FinalsProg_DSA_HCI
                         MainmenuSession = MainMenu();
                     }
                     Console.Clear();
+                    CheckLoginNotifications();
+                    Console.ReadKey();
+                    Console.Clear();
 
                     bool userIsLoggedIn = true;
                     while (userIsLoggedIn)
@@ -75,12 +79,15 @@ namespace FinalsProg_DSA_HCI
                                 ExecuteMakeRequest(RequestListmaker);
                                 break;
                             case 5:
+                                ExecuteViewAccomplishedRequests();
+                                break;
+                            case 6:
                                 Console.WriteLine("\nLogging out... Returning to Authentication screen.");
                                 Console.ReadKey();
-                                userIsLoggedIn = false; // Breaks this loop, recycling back up to the login page
+                                currentLoggedInUser = ""; // reset tracker for consistency
+                                userIsLoggedIn = false;
                                 break;
                             default:
-                                // Handles invalid entries or 0 returns smoothly by re-looping the menu
                                 break;
                         }
                     }
@@ -222,18 +229,19 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("2. View donor status and ranking");
             Console.WriteLine("3. View requests");
             Console.WriteLine("4. Make a request");
-            Console.WriteLine("5. Log out");
+            Console.WriteLine("5. History of completed request from you");
+            Console.WriteLine("6. Log out");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (choice >= 1 && choice <= 5)
+                if (choice >= 1 && choice <= 6)
                 {
                     return choice;
                 }
                 else
                 {
-                    Console.WriteLine("\nInvalid input. Please type 1 to 5.");
+                    Console.WriteLine("\nInvalid input. Please type 1 to 6.");
                     Console.WriteLine("Press any key to try again...");
                     Console.ReadKey();
                     return 0;
@@ -262,7 +270,6 @@ namespace FinalsProg_DSA_HCI
                 return;
             }
 
-            // Display active requests formatted
             for (int i = 0; i < RequestListmaker.Count; i++)
             {
                 Console.WriteLine($"--- Request #{i + 1} ---");
@@ -279,22 +286,33 @@ namespace FinalsProg_DSA_HCI
                 int targetIndex = choice - 1;
                 if (targetIndex >= 0 && targetIndex < RequestListmaker.Count)
                 {
-                    // 1. Remove the fulfilled item from memory
+                    string selectedTicket = RequestListmaker[targetIndex];
+                    string originalRequester = "Someone";
+                    string[] ticketLines = selectedTicket.Split('\n');
+                    if (ticketLines.Length > 0 && ticketLines[0].Contains("Posted by:"))
+                    {
+                        originalRequester = ticketLines[0].Replace("Posted by:", "").Trim();
+                    }
+
+                    //adds it to accomplished
+                    File.AppendAllText(AccomplishedFilePath, $"{originalRequester}|{currentLoggedInUser}|Donation Pack|Completed\n");
+
+                    //removes the accomplished item
                     RequestListmaker.RemoveAt(targetIndex);
 
-                    // 2. Rewrite the remaining items to requests.txt
+                    // rewriter
                     File.WriteAllText(RequestsFilePath, "");
                     foreach (string ticket in RequestListmaker)
                     {
                         File.AppendAllText(RequestsFilePath, ticket + "=========================\n");
                     }
 
-                    // 3. Update local dictionary points (index [1])
+                    // add points
                     int currentPoints = Convert.ToInt32(userDatabase[currentLoggedInUser][1]);
                     currentPoints += 10;
                     userDatabase[currentLoggedInUser][1] = currentPoints.ToString();
 
-                    // 4. Update the database file
+                    // Update the file
                     File.WriteAllText(DatabaseFilePath, "");
                     foreach (var entry in userDatabase)
                     {
@@ -302,7 +320,7 @@ namespace FinalsProg_DSA_HCI
                     }
 
                     Console.WriteLine("\nThank you for donating! You completed the request.");
-                    Console.WriteLine("✨ You gained +10 points! Check rankings to see your spot.");
+                    Console.WriteLine("You gained +10 points! Check rankings to see your spot.");
                 }
                 else
                 {
@@ -317,7 +335,6 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("\nPress any key to return to dashboard...");
             Console.ReadKey();
         }
-
         static void ExecuteViewStatus()
         {
             Console.Clear();
@@ -362,7 +379,6 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("\nPress any key to return to dashboard...");
             Console.ReadKey();
         }
-
         static void ExecuteViewRequests(List<string> Requestlistmaker)
         {
             Console.Clear();
@@ -384,7 +400,6 @@ namespace FinalsProg_DSA_HCI
             }
             Console.ReadKey();
         }
-
         static void ExecuteMakeRequest(List<string> Requestlistmaker)
         {
             string title = "";
@@ -497,6 +512,63 @@ namespace FinalsProg_DSA_HCI
                 }
             }
 
+        }
+        static void CheckLoginNotifications()
+        {
+            if (File.Exists(AccomplishedFilePath))
+            {
+                int count = 0;
+                foreach (string line in File.ReadAllLines(AccomplishedFilePath))
+                {
+                    string[] parts = line.Split('|');
+                    if (parts.Length >= 4 && parts[0] == currentLoggedInUser)
+                    {
+                        count++;
+                    }
+                }
+
+                if (count > 0)
+                {
+                    Console.WriteLine($"\n[NOTIFICATION] You have {count} accomplished request(s) waiting in your history!");
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("\n[NOTIFICATION] No new updates since your last login.");
+                    Console.WriteLine("Press any key to proceed to dashboard...");
+                    Console.ReadKey();
+                }
+            }
+        }
+        static void ExecuteViewAccomplishedRequests()
+        {
+            Console.Clear();
+            Console.WriteLine("=== YOUR ACCOMPLISHED REQUESTS ===");
+
+            if (File.Exists(AccomplishedFilePath))
+            {
+                foreach (string line in File.ReadAllLines(AccomplishedFilePath))
+                {
+                    string[] parts = line.Split('|');
+
+                    // Check if this belongs to user
+                    if (parts.Length >= 4 && parts[0] == currentLoggedInUser)
+                    {
+                        Console.WriteLine($"Donor : {parts[1]}");
+                        Console.WriteLine($"Type  : {parts[2]}");
+                        Console.WriteLine($"Status: {parts[3]}");
+                        Console.WriteLine("--------------------");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No requests have been completed yet.");
+            }
+
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
         }
     }
 }
