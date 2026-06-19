@@ -15,6 +15,7 @@ namespace FinalsProg_DSA_HCI
         static string currentLoggedInUser = ""; //for current user thats logged in
         static string RequestsFilePath = "requests.txt"; //storing requests
         static string AccomplishedFilePath = "accomplished.txt"; //for history
+        static string ReadNotificationsFilePath = "readnotifications.txt"; //forlogin notifications
         static void logo()
         {
             string header = @"
@@ -408,7 +409,10 @@ namespace FinalsProg_DSA_HCI
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (choice == 0) return;
+                if (choice == 0)
+                {
+                    return;
+                }
 
                 int targetIndex = choice - 1;
                 if (targetIndex >= 0 && targetIndex < RequestListmaker.Count)
@@ -419,6 +423,14 @@ namespace FinalsProg_DSA_HCI
                     if (ticketLines.Length > 0 && ticketLines[0].Contains("Posted by:"))
                     {
                         originalRequester = ticketLines[0].Replace("Posted by:", "").Trim();
+                    }
+
+                    if (originalRequester == currentLoggedInUser)
+                    {
+                        Console.WriteLine("\nYou cannot fulfill your own request.");
+                        Console.WriteLine("Press any key to return...");
+                        Console.ReadKey();
+                        return;
                     }
 
                     //adds it to accomplished
@@ -642,30 +654,37 @@ namespace FinalsProg_DSA_HCI
         }
         static void CheckLoginNotifications()
         {
+            int unreadCount = 0;
+
             if (File.Exists(AccomplishedFilePath))
             {
-                int count = 0;
+                List<string> readEntries = new List<string>();
+
+                if (File.Exists(ReadNotificationsFilePath))
+                {
+                    readEntries = File.ReadAllLines(ReadNotificationsFilePath).ToList();
+                }
+
                 foreach (string line in File.ReadAllLines(AccomplishedFilePath))
                 {
                     string[] parts = line.Split('|');
-                    if (parts.Length >= 4 && parts[0] == currentLoggedInUser)
+
+                    if (parts.Length >= 4 &&
+                        parts[0] == currentLoggedInUser &&
+                        !readEntries.Contains(line))
                     {
-                        count++;
+                        unreadCount++;
                     }
                 }
+            }
 
-                if (count > 0)
-                {
-                    Console.WriteLine($"\n[NOTIFICATION] You have {count} accomplished request(s) waiting in your history!");
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("\n[NOTIFICATION] No new updates since your last login.");
-                    Console.WriteLine("Press any key to proceed to dashboard...");
-                    Console.ReadKey();
-                }
+            if (unreadCount > 0)
+            {
+                Console.WriteLine($"[NOTIFICATION] You have {unreadCount} new completed request(s).");
+            }
+            else
+            {
+                Console.WriteLine("[NOTIFICATION] No new updates.");
             }
         }
         static void ExecuteViewAccomplishedRequests()
@@ -692,6 +711,19 @@ namespace FinalsProg_DSA_HCI
             else
             {
                 Console.WriteLine("No requests have been completed yet.");
+            }
+
+            if (File.Exists(AccomplishedFilePath))
+            {
+                foreach (string line in File.ReadAllLines(AccomplishedFilePath))
+                {
+                    string[] parts = line.Split('|');
+
+                    if (parts.Length >= 4 && parts[0] == currentLoggedInUser)
+                    {
+                        File.AppendAllText(ReadNotificationsFilePath, line + Environment.NewLine);
+                    }
+                }
             }
 
             Console.WriteLine("\nPress any key to return...");
