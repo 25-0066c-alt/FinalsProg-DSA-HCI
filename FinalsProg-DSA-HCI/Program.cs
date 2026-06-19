@@ -142,7 +142,6 @@ namespace FinalsProg_DSA_HCI
                                                                        .:=+#%@@%*-. -***+-       :=*%@@%=.    :=*%@@+-+##*:  :=*%@%+-**#+-. .:=*#%@@*:   .=*#*=.  -*##+:";
             Console.WriteLine(art);
         }
-
         static void Main(string[] args)
         {
             List<string> RequestListmaker = new List<string>();
@@ -209,6 +208,9 @@ namespace FinalsProg_DSA_HCI
                                 ExecuteViewAccomplishedRequests();
                                 break;
                             case 6:
+                                ExecuteProfile();
+                                break;
+                            case 7:
                                 Console.WriteLine("\nLogging out... Returning to Authentication screen.");
                                 Console.ReadKey();
                                 currentLoggedInUser = ""; // reset tracker for consistency
@@ -358,12 +360,13 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("3. View requests");
             Console.WriteLine("4. Make a request");
             Console.WriteLine("5. History of completed request from you");
-            Console.WriteLine("6. Log out");
+            Console.WriteLine("6. View profile");
+            Console.WriteLine("7. Log out");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (choice >= 1 && choice <= 6)
+                if (choice >= 1 && choice <= 7)
                 {
                     return choice;
                 }
@@ -434,7 +437,11 @@ namespace FinalsProg_DSA_HCI
                     }
 
                     //adds it to accomplished
-                    File.AppendAllText(AccomplishedFilePath, $"{originalRequester}|{currentLoggedInUser}|Donation Pack|Completed\n");
+                    Console.Write("Leave a message: ");
+                    string message = Console.ReadLine();
+
+                    File.AppendAllText(AccomplishedFilePath,
+                        $"{originalRequester}|{currentLoggedInUser}|Donation Pack|Completed|{message}\n");
 
                     //removes the accomplished item
                     RequestListmaker.RemoveAt(targetIndex);
@@ -459,7 +466,55 @@ namespace FinalsProg_DSA_HCI
                     }
 
                     Console.WriteLine("\nThank you for donating! You completed the request.");
-                    Console.WriteLine("You gained +10 points! Check rankings to see your spot.");
+                    Console.WriteLine("You gained +10 points! Check rankings to see your spot.\n");
+                    if (currentPoints == 10)
+                    {
+                        Console.WriteLine("Achievement Unlocked: First Donation!");
+                    }
+                    else if (currentPoints == 50)
+                    {
+                        Console.WriteLine("Achievement Unlocked: Helping Hand!");
+                    }
+                    else if (currentPoints == 80)
+                    {
+                        Console.WriteLine("Achievement Unlocked: Fellow Volunteers!");
+                    }
+                    else if (currentPoints == 100)
+                    {
+                        Console.WriteLine("Achievement Unlocked: Community Helper!");
+                    }
+                    else if (currentPoints == 200)
+                    {
+                        Console.WriteLine("Achievement Unlocked: Contributor to the Need!");
+                    }
+                    else if (currentPoints == 300)
+                    {
+                        Console.WriteLine("Achievement Unlocked: The Benefactor!");
+                    }
+                    else if (currentPoints == 400)
+                    {
+                        Console.WriteLine("Achievement Unlocked: A Patron to Society!");
+                    }
+                    else if (currentPoints == 500)
+                    {
+                        Console.WriteLine("Achievement Unlocked: The Philanthropist!");
+                    }
+                    else if (currentPoints == 650)
+                    {
+                        Console.WriteLine("Achievement Unlocked: The Altruistic Friend!");
+                    }
+                    else if (currentPoints == 800)
+                    {
+                        Console.WriteLine("Achievement Unlocked: The Helping Champion!");
+                    }
+                    else if (currentPoints == 1000)
+                    {
+                        Console.WriteLine("Achievement Unlocked: Mr Beast!");
+                    }
+                    else if (currentPoints == 1500)
+                    {
+                        Console.WriteLine("Achievement Unlocked: Greatest of All Time!");
+                    }
                 }
                 else
                 {
@@ -476,6 +531,8 @@ namespace FinalsProg_DSA_HCI
         }
         static void ExecuteViewStatus()
         {
+            int points = int.Parse(userDatabase[currentLoggedInUser][1]);
+
             Console.Clear();
             Console.WriteLine("=================================");
             Console.WriteLine("    DONOR STATUS & RANKINGS      ");
@@ -484,6 +541,7 @@ namespace FinalsProg_DSA_HCI
             string currentPoints = userDatabase[currentLoggedInUser][1];
             Console.WriteLine($"Logged User: {currentLoggedInUser}");
             Console.WriteLine($"Your Score : {currentPoints} Points\n");
+
 
             Console.WriteLine("--- LEADERBOARD RANKINGS ---");
 
@@ -510,7 +568,12 @@ namespace FinalsProg_DSA_HCI
             int rank = 1;
             foreach (var player in leaderboard)
             {
-                Console.WriteLine($"{rank}. {player.Key,-12} : {player.Value[1]} pts");
+                int points2 = int.Parse(player.Value[1]);
+
+                Console.WriteLine(
+                    $"{rank}. {player.Key,-12} : {points} pts | {GetDonorBadge(points)}"
+                );
+
                 rank++;
             }
             Console.WriteLine("=================================");
@@ -704,6 +767,10 @@ namespace FinalsProg_DSA_HCI
                         Console.WriteLine($"Donor : {parts[1]}");
                         Console.WriteLine($"Type  : {parts[2]}");
                         Console.WriteLine($"Status: {parts[3]}");
+                        if (parts.Length >= 5)
+                        {
+                            Console.WriteLine($"Message: {parts[4]}");
+                        }
                         Console.WriteLine("--------------------");
                     }
                 }
@@ -727,6 +794,123 @@ namespace FinalsProg_DSA_HCI
             }
 
             Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+        }
+        static string GetDonorBadge(int points)
+        {
+            if (points >= 2000)
+            {
+                return "Global Donor";
+            }
+            else if (points >= 1000)
+            {
+                return "Diamond Donor";
+            }
+            else if (points >= 500)
+            {
+                return "Emerald Donor";
+            }
+            else if (points >= 200)
+            {
+                return "Platinum Donor";
+            }
+            else if (points >= 100)
+            {
+                return "Gold Donor";
+            }
+            else if (points >= 50)
+            {
+                return "Silver Donor";
+            }
+            else
+            {
+                return "Bronze Donor";
+            }
+        }
+        static List<string> GetAchievements(int points)
+        {
+            List<string> achievements = new List<string>();
+
+            if (points >= 10)
+            {
+                achievements.Add("First Donation");
+            }
+
+            if (points >= 50)
+            {
+                achievements.Add("Helping Hand");
+            }
+
+            if (points >= 80)
+            {
+                achievements.Add("Fellow Voluntees");
+            }
+
+            if (points >= 100)
+            {
+                achievements.Add("Community Helper");
+            }
+
+            if (points >= 200)
+            {
+                achievements.Add("Contributor to the need");
+            }
+
+            if (points >= 300)
+            {
+                achievements.Add("The Benefactor");
+            }
+
+            if (points >= 400)
+            {
+                achievements.Add("A patron to society");
+            }
+
+            if (points >= 500)
+            {
+                achievements.Add("The Philanthropist");
+            }
+
+            if (points >= 650)
+            {
+                achievements.Add("The Altruistic friend");
+            }
+
+            if (points >= 800)
+            {
+                achievements.Add("The Helping Champion");
+            }
+
+            if (points >= 1000)
+            {
+                achievements.Add("Mr Beast");
+            }
+
+            if (points >= 1500)
+            {
+                achievements.Add("Greatest of All time");
+            }
+
+            return achievements;
+        }
+        static void ExecuteProfile()
+        {
+            Console.Clear();
+
+            int points = int.Parse(userDatabase[currentLoggedInUser][1]);
+
+            Console.WriteLine("=== DONOR PROFILE ===");
+            Console.WriteLine($"Username : {currentLoggedInUser}");
+            Console.WriteLine($"Points   : {points}");
+            Console.WriteLine($"Badge    : {GetDonorBadge(points)}");
+
+            Console.WriteLine("\nAchievements:");
+
+            foreach (string achievement in GetAchievements(points))
+            {
+                Console.WriteLine($"✓ {achievement}");
+            }
+
             Console.ReadKey();
         }
     }
