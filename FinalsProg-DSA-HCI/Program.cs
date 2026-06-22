@@ -67,79 +67,65 @@ namespace FinalsProg_DSA_HCI
         static void title()
         {
             string asciiArt = @"
-                                                            .++++++=:.                                                            :%@=              
-                                                            :*@@@@@@@@@@*.                                                       .*@@@@+             
-                                                            :*@@@@%%@@@@@@+                                                      .=*@@@-             
-                                                            :*@@@@..-+%@@@@+                                                      .+@@:              
-                                                            :*@@@@.  :+%@@@@. .=%@@@@@@+. .=@@@%*@@@@@=.   :*@@@@@@*: .-%@@@=%@@@%=+=   :*@@@@@@-    
-                                                            :*@@@@.  .=#@@@@:*@@@@@@@@@@@+:*@@@@@@@@@@@# =@@@@@@@@@@@#:+@@@@@@@@@.    .+@@@@##%+     
-                                                            :*@@@@.  .+@@@@%*@@@@-.:=#@@@@+*@@@%..-#@@@@=%@@@#..-*@@@@++@@@@=.:.      :+@@@@@#=.     
-                                                            :*@@@@. .+@@@@@+*@@@@:  :+@@@@+*@@@#. :*@@@@=@@@@*  .=%@@@*+@@@@.          :=#@@@@@@+    
-                                                            :*@@@@@@@@@@@%.:=%@@@@#*#@@@@#-*@@@#. :*@@@@=#@@@@%**@@@@@-+@@@@.          -#%++%@@@%    
-                                                            :*@@@@@@@@@*.   :=*@@@@@@@@%- :*@@@#. :*@@@@.-*%@@@@@@@@* .+@@@@.         =%@@@@@@@%.    
-                                                            .------:.         .:-=++-:    .---:.  :---:.  .:-=++=:.   .:--:.          .:-=+=-:.                                                                                 
-                                                                            .::::::..                   ::.                                            
-                                                                            .=%@@@@@@@@@#.             .+@@@@-                                           
-                                                                            .=%@@@@@@@@@@@#.           -*@@@@:                                           
-                                                                            .=%@@@*.:=#@@@@%.           .:..                                             
-                                                                            .=%@@@*   -*@@@@+.+###-=#@%*-*##*-*###-   .+###*. .=#@@%#-.                  
-                                                                            .=%@@@*   .+@@@@#=%@@@@@@@@=+@@@@+#@@@@: :#@@@@.-@@@@@%@@@@-                 
-                                                                            .=%@@@*   .*@@@@*=%@@@#:::.:+@@@@--#@@@@=*@@@@:=%@@@#*#%@@@@.                
-                                                                            .=%@@@*  .+@@@@%:=%@@@-    :+@@@@:.=#@@@@@@@@::*@@@@@@@@@@@%:                
-                                                                            .=%@@@@%%@@@@@%..=%@@@-    :+@@@@: .=#@@@@@@: .=%@@@%: .+%+.                 
-                                                                            .=%@@@@@@@@@#:  .=%@@@-    :+@@@@:  .=#@@@@-   :=#@@@@@@@@@-                 
-                                                                            .-+****+=:.     .=+*+:.    :=++=:    .=++-.      :=+#%%*-.
-";
+                                                                            :@@@@@@*                                           :@@%          
+                                                                            =@@@@@@@@@:                                        +@@@          
+                                                                            =@@@  -#@@@.    ..          .        ..          . .@@    ..     
+                                                                            =@@@   =@@@#.@@@@@@@@ =@@@@@@@@+ :@@@@@@@# +@@@@@@=    *@@@@@.   
+                                                                            =@@@   +@@@*@@@- -#@@@=@@@ .*@@@=@@@  -%@@#+@@@ .     :%@@@#:    
+                                                                            =@@@. @@@@*=@@@=  #@@@=@@@  +@@@+@@@. .@@@*+@@@        .-*@@@@   
+                                                                            =@@@@@@@*   =@@@@@@@# =@@@  +@@@.+@@@@@@@= +@@@       =@@@@@@=        
+                                                                                    -@@@@@@@@:           __                               
+                                                                                    -@@@+=#@@@@          --                                 
+                                                                                    -@@@=  =@@@#.###-%@#:##*=##*   +##+  +@@%+              
+                                                                                    -@@@=  :%@@%+@@@@@@:*@@%=@@@# #@@%.@@@-=%@@-            
+                                                                                    -@@@=  *@@@=+@@@    *@@# =%@@%@@% *@@@@@@@@*            
+                                                                                    -@@@@@@@@@: +@@@    *@@#  -@@@@%  =@@@+.=@#             
+                                                                                    -@@@@@@=    +@@@    *@@#   -%@@    :*@@@@%. ";
             Console.WriteLine(asciiArt);
+
         }
         static void logindisplay()
         {
             string art = @"                                                                                                                                                                                                                                                                                                                   
                                                                                                                 
-                                                    .*@@@@:                                                  +@@@@:                                 
-                                                    :#@@@@:                                                 =%@@@@*                                 
-                                                    :#@@@@:                                                 .=#%*                                   
-                                                    :#@@@@:                                                                                         
-                                                    :#@@@@:            @@@@@@@@-       #@@@@@@+@@@@=         *@@@@   %@@@%=@@@@@@-                  
-                                                    :#@@@@:         *@@@@@@@@@@@@=  .%@@@@@@@@@@@@@=        :#@@@@  =@@@@@@@@@@@@@@                 
-                                                    :#@@@@:       .#@@@@%:.-+%@@@@#:#@@@@%:.-*%@@@@=        :#@@@@  =@@@@@= .-#@@@@*                
-                                                    :#@@@@:       =%@@@@     *@@@@@+@@@@@    .+@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                    :#@@@@:       =%@@@@=    *@@@@@+%@@@@:    *@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                    :#@@@@@@@@@@@@:*@@@@@@@@@@@@@@..*@@@@@@@@@@@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                    :#@@@@@@@@@@@@ .=%@@@@@@@@@@+   :*@@@@@@@@@@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                    .===========:     :=+*##*-        .=+###=:+@@@@=        .===:   :===.     -==-                  
-                                                                                      =%%:   =@@@@@.                                                
-                                                                                    *@@@@@@@@@@@@@=                                                 
-                                                                                     .=#@@@@@@@@@-                                                   
-                                                                                           ...                                                                                                                                                                
-                                                                                                                ";
+                                                            .*@@@@:                                                  +@@@@:                                 
+                                                            :#@@@@:                                                 =%@@@@*                                 
+                                                            :#@@@@:                                                 .=#%*                                   
+                                                            :#@@@@:                                                                                         
+                                                            :#@@@@:            @@@@@@@@-       #@@@@@@+@@@@=         *@@@@   %@@@%=@@@@@@-                  
+                                                            :#@@@@:         *@@@@@@@@@@@@=  .%@@@@@@@@@@@@@=        :#@@@@  =@@@@@@@@@@@@@@                 
+                                                            :#@@@@:       .#@@@@%:.-+%@@@@#:#@@@@%:.-*%@@@@=        :#@@@@  =@@@@@= .-#@@@@*                
+                                                            :#@@@@:       =%@@@@     *@@@@@+@@@@@    .+@@@@=        :#@@@@  =@@@@#   .*@@@@*                
+                                                            :#@@@@:       =%@@@@=    *@@@@@+%@@@@:    *@@@@=        :#@@@@  =@@@@#   .*@@@@*                
+                                                            :#@@@@@@@@@@@@:*@@@@@@@@@@@@@@..*@@@@@@@@@@@@@@=        :#@@@@  =@@@@#   .*@@@@*                
+                                                            :#@@@@@@@@@@@@ .=%@@@@@@@@@@+   :*@@@@@@@@@@@@@=        :#@@@@  =@@@@#   .*@@@@*                
+                                                            .===========:     :=+*##*-        .=+###=:+@@@@=        .===:   :===.     -==-                  
+                                                                                              =%%:   =@@@@@.                                                
+                                                                                             *@@@@@@@@@@@@@=                                                 
+                                                                                              .=#@@@@@@@@@-                                                   
+                                                                                                   ...  ";
             Console.WriteLine(art);
         }
         static void Accountcreationdisplay()
         {
             string art = @"
-                                                                            :#@@@@=                                                                                       
-                                                                            :*@@@@@@.                                                                       .=%%%=         
-                                                                           .+@@@@@@@@.                                                                     .=%@@@+         
-                                                                          .=@@@@%@@@@*        :=++-.     :=*+-.     .=++=.     .:::.    ::::  .:::..-++:   .+%@@@*:.       
-                                                                          -%@@@%=*@@@@-   .=@@@@@@@@:.=@@@@@@@@..=@@@@@@@@@%:.+@@@@+  -*@@@@:+@@@@@@@@@@@%=#@@@@@@@%.      
-                                                                         :#@@@@-.-#@@@@. :#@@@@#==:.:#@@@@*==- -%@@@@%+*%@@@@*+@@@@+  -*@@@@:+@@@@@==#@@@@%=+%@@@#:.       
-                                                                        .+@@@@@@@@@@@@@@:*@@@@+    .+@@@@*    .+@@@@=  :+%@@@%+@@@@*  -*@@@@:+@@@@= .=%@@@%.=%@@@+         
-                                                                       .=@@@@@@@@@@@@@@@#*%@@@#.   :+@@@@#.   :+@@@@%  .+@@@@%+@@@@#  =#@@@@:+@@@@= .=%@@@%.=%@@@+         
-                                                                       -%@@@%-.....-#@@@@**@@@@@@@@#-*@@@@@@@@*=*@@@@@@@@@@@%.=#@@@@@%@@@@@+.+@@@@= .=%@@@%.-#@@@@@#.      
-                                                                      :#@@@@=      :=%@@@@-=*@@@@@@@--=*@@@@@@@-:=#@@@@@@@#.  :-*%@@@@@@@#: .+@@@@= .=%@@@# :=#@@@@@-      
-                                                                      ....          .....   ...:..     ...:..     ...::.        ....:..     .....    ....    ...:.         
-                                                                                                 
-                                                                          .=#%%%#=.                                                   .+*:                                 
-                                                                      .-%@@@@@@@@@@@.                                               :*@@@@-                                
-                                                                    .=@@@@@@@@@@@@@-                                        :#@@@%..-*@@@%.                                
-                                                                  .=%@@@@:          .+@@@%-%@@@#  .#@@@@@*.    :%@@@@%+@@@%-@@@@@@@@==@@@%:   .*@@@@@@=   :#@@@=#@@@@%.    
-                                                                  :+@@@@@           -#@@@@@@@@%.=@@@@%%@@@@*.=@@@@@@@@@@@@@+@@@@@@@@**@@@%:.+@@@@@@@@@@@+.=@@@@@@@@@@@@=   
-                                                                  :+%@@@@-          -#@@@@:.:..*@@@@%##@@@@@%@@@@@..-+@@@@% -#@@@%. :*@@@%-*@@@@+ :=#@@@@+=@@@@* :=%@@@#   
-                                                                   -*@@@@@+         -#@@@%    :*@@@@@%%%%%%##@@@@%   -*@@@% -#@@@%. :*@@@@=*@@@@:  .=%@@@#=@@@@=  -#@@@#   
-                                                                   .-*@@@@@@@@%@@@@--#@@@%    :*%@@@#   =@+ =%@@@@*..*@@@@% -#@@@@:.:*@@@%=*@@@@@- -%@@@@-=@@@@=  -#@@@#   
-                                                                     :=*@@@@@@@@@@@@=#@@@%     :+%@@@@@@@@@+:=#@@@@@@@@@@@% :+%@@@@@**@@@%:-+%@@@@@@@@@%:.=@@@@=  -#@@@#   
-                                                                       .:=+#%@@%*-. -***+-       :=*%@@%=.    :=*%@@+-+##*:  :=*%@%+-**#+-. .:=*#%@@*:   .=*#*=.  -*##+:";
+                                                                              *@@@                                                                
+                                                                             +@@@@%                                                    .@@@       
+                                                                            -@@@@@@#                                                   =@@@       
+                                                                           .@@@#+@@@.   *@@@@@- #@@@@@. #@@@@@@# =@@@  -%@@.+@@@@@@@@*+@@@@@@     
+                                                                           #@@@**@@@@.:@@@* . -@@@+ . -@@@*.=#@@@=@@@  -%@@.+@@@.:*@@@.=@@@.      
+                                                                          +@@@@@@@@@@@+@@@.   =@@@:   =@@@:  *@@@+@@@. -@@@.+@@@  +@@@ =@@@.      
+                                                                         -@@@=    =@@@#*@@@@@@:#@@@@@@-#@@@@@@@@--%@@@@@@@@ +@@@  +@@@ -@@@@%     
+                                                                        .***:     .***- :+%@%:  :+%@%:  :+#@@*    :=*%@@*   =**:  =**-  -*@%-     
+                                                                                                                                                    
+                                                                        -%@@@%=                                     =@=                        
+                                                                      -@@@@@@@@@.                              #%# .*@@@                        
+                                                                     #@@@*    .                               +@@@   .                          
+                                                                    =@@@*        +@@@%@@@ :@@@@@%.  *@@@@@@@@+@@@@@@=@@@  :%@@@@@* .#@@@@@@@%   
+                                                                    =@@@*        *@@@#++ #@@*.=@@@=@@@@=*@@@@-*@@@: +@@@ #@@@++@@@@:#@@@-+@@@#  
+                                                                    :#@@@#       *@@@   -@@@@%%%%%#@@@   +@@@ +@@@  +@@@-@@@+  -@@@*#@@+ .#@@#  
+                                                                     :*@@@@@@@@@-*@@@   :*@@@%*@@@=%@@@@@@@@@ +@@@@++@@@:*@@@@@@@@%.#@@+ .#@@#  
+                                                                       .=#@@@@%=.*@@*     =#@@@%=  :*@@@%*@@# .+@@@#+@@*  -#@@@@*. .#@%- .#@@+  ";
             Console.WriteLine(art);
         }
         static void Main(string[] args)
@@ -264,8 +250,9 @@ namespace FinalsProg_DSA_HCI
             Console.Clear();
             while (true)
             {
+                Console.Clear();
                 Accountcreationdisplay();
-                Console.WriteLine("Would you like to sign up? (Y/N)");
+                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\tWould you like to sign up? (Y/N) :");
                 try
                 {
                     char signupchoice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
@@ -280,35 +267,37 @@ namespace FinalsProg_DSA_HCI
                         Environment.Exit(0);
                     }
 
-                    Console.WriteLine("\nInvalid input. Please type Y or N.");
+                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tInvalid input. Please type Y or N.");
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("\nInvalid input. Please type exactly one character.");
+                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tInvalid input. Please type exactly one character.");
                 }
-                Console.WriteLine("Press any key to try again...");
+                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tPress any key to try again...");
                 Console.ReadKey();
-                Console.Clear();
             }
             while (true)
             {
-                Console.WriteLine("\n[Creating New Account]");
-                Console.Write("Enter Username: ");
+                Console.Clear();
+                Accountcreationdisplay();
+                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t\t\t\t[Creating New Account]");
+                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\t\tEnter Username: ");
                 string user = Console.ReadLine()?.Trim();
 
-                Console.Write("Enter Password: ");
+                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\t\tEnter Password: ");
                 string pass = Console.ReadLine()?.Trim();
 
                 if (userDatabase.ContainsKey(user) || string.IsNullOrEmpty(user))
                 {
-                    Console.WriteLine("Username invalid or already exists. Try again.");
+                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t Username invalid or already exists. Press any key to try again.");
+                    Console.ReadKey();
                     continue;
                 }
 
                 userDatabase.Add(user, new string[] { pass, "0" });
                 File.AppendAllText(DatabaseFilePath, $"{user},{pass},0\n");
 
-                Console.WriteLine("\nRegistration Successful! Press any key to continue");
+                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tRegistration Successful! Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
                 return;
@@ -571,7 +560,7 @@ namespace FinalsProg_DSA_HCI
                 int points2 = int.Parse(player.Value[1]);
 
                 Console.WriteLine(
-                    $"{rank}. {player.Key,-12} : {points} pts | {GetDonorBadge(points)}"
+                    $"{rank}. {player.Key,-12} : {points} pts | {Rankings(points)}"
                 );
 
                 rank++;
@@ -662,7 +651,7 @@ namespace FinalsProg_DSA_HCI
                         Console.Write($"{itemCounter}. ");
                         string itemInput = Console.ReadLine()?.Trim();
 
-                        if (string.Equals(itemInput, "X", StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(itemInput, "X"))
                         {
                             break;
                         }
@@ -796,7 +785,7 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
-        static string GetDonorBadge(int points)
+        static string Rankings(int points)
         {
             if (points >= 2000)
             {
@@ -902,7 +891,7 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("=== DONOR PROFILE ===");
             Console.WriteLine($"Username : {currentLoggedInUser}");
             Console.WriteLine($"Points   : {points}");
-            Console.WriteLine($"Badge    : {GetDonorBadge(points)}");
+            Console.WriteLine($"Badge    : {Rankings(points)}");
 
             Console.WriteLine("\nAchievements:");
 
@@ -913,5 +902,70 @@ namespace FinalsProg_DSA_HCI
 
             Console.ReadKey();
         }
+
+        static void DeleteRequests(List<string> RequestListmaker)
+        {
+            Console.WriteLine("Choose a request you made that you want to remove:");
+            try
+            {
+                int choice = Convert.ToInt32(Console.ReadLine());
+
+                if (choice == 0)
+                {
+                    return;
+                }
+
+                int targetIndex = choice - 1;
+                if (targetIndex >= 0 && targetIndex < RequestListmaker.Count)
+                {
+                    string selectedTicket = RequestListmaker[targetIndex];
+                    string originalRequester = "Someone";
+                    string[] ticketLines = selectedTicket.Split('\n');
+                    if (ticketLines.Length > 0 && ticketLines[0].Contains("Posted by:"))
+                    {
+                        originalRequester = ticketLines[0].Replace("Posted by:", "").Trim();
+                    }
+
+                    if (originalRequester != currentLoggedInUser)
+                    {
+                        Console.WriteLine("\nYou can only delete your own request.");
+                        Console.WriteLine("Press any key to return...");
+                        Console.ReadKey();
+                        return;
+                    }
+
+                    File.AppendAllText(AccomplishedFilePath,
+                        $"{originalRequester}|{currentLoggedInUser}|Donation Pack|Completed|\n");
+
+                    //removes the accomplished item
+                    RequestListmaker.RemoveAt(targetIndex);
+
+                    // rewriter
+                    File.WriteAllText(RequestsFilePath, "");
+                    foreach (string ticket in RequestListmaker)
+                    {
+                        File.AppendAllText(RequestsFilePath, ticket + "=========================\n");
+                    }
+
+                    // Update the file
+                    File.WriteAllText(DatabaseFilePath, "");
+                    foreach (var entry in userDatabase)
+                    {
+                        File.AppendAllText(DatabaseFilePath, $"{entry.Key},{entry.Value[0]},{entry.Value[1]}\n");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("\nInvalid input. Expected a valid number entry.");
+            }
+        }
     }
 }
+        
+   
+
+
+                
+           
+    
