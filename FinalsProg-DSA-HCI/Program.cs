@@ -16,6 +16,8 @@ namespace FinalsProg_DSA_HCI
         static string RequestsFilePath = "requests.txt"; //storing requests
         static string AccomplishedFilePath = "accomplished.txt"; //for history
         static string ReadNotificationsFilePath = "readnotifications.txt"; //forlogin notifications
+        static string pad = new string('\t', 11);
+        static string smallpad = new string('\t', 10);
         static void logo()
         {
             string header = @"
@@ -128,6 +130,42 @@ namespace FinalsProg_DSA_HCI
                                                                        .=#@@@@%=.*@@*     =#@@@%=  :*@@@%*@@# .+@@@#+@@*  -#@@@@*. .#@%- .#@@+  ";
             Console.WriteLine(art);
         }
+        static void Notification()
+        {
+            string notifart = @"                                                                          
+                                                                                                    .-====-:                                 
+                                                                                                   .-======-.                                
+                                                                                                 .:-=:.  .:=-:.                              
+                                                                                              :-----:......:====-:.                          
+                                                                                           .:-----:....... .:--===-:.                        
+                                                                                          :---:...........      :-==-:.                      
+                                                                                        .:--.............         .:==-.                     
+                                                                                        .:-:............             :-=-.                    
+                                                                                       :-:...........                .-=:                    
+                                                                                      .--..........                   .=-.                   
+                                                                                      :=:.........                     -=:                   
+                                                                                      -=........                       .=-                   
+                                                                                      --.......                        .==                   
+                                                                                      ==.....                      .....==                   
+                                                                                      ==....                      ......==                   
+                                                                                      ==........                  ......==                   
+                                                                                      ==.........            ...........==                   
+                                                                                      =+................................+=                   
+                                                                                      ++.........................:.....:+=                   
+                                                                                     :*+................................+*:                  
+                                                                                    .-##-................................-**-.                
+                                                                                 .-*##*-..................................-*##*-.             
+                                                                               .=%%#+:....................................:+###=.            
+                                                                               .*#:..................::::::..................-#*.            
+                                                                               .+%#######*******==+*++++++++++==*****#########%+.            
+                                                                                :+##########****%@#%##########@@*****#########+:             
+                                                                                               .#@#----====--+@%.                            
+                                                                                                -@@@+.::::.+@@@=                             
+                                                                                                 +@@@@@@@@@@@@+                              
+                                                                                                  .+@@@@@@@@+.                               
+                                             ";
+            Console.WriteLine(notifart);
+        }
         static void Main(string[] args)
         {
             List<string> RequestListmaker = new List<string>();
@@ -197,6 +235,9 @@ namespace FinalsProg_DSA_HCI
                                 ExecuteProfile();
                                 break;
                             case 7:
+                                DeleteRequests(RequestListmaker);
+                                break;
+                            case 8:
                                 Console.WriteLine("\nLogging out... Returning to Authentication screen.");
                                 Console.ReadKey();
                                 currentLoggedInUser = ""; // reset tracker for consistency
@@ -215,8 +256,7 @@ namespace FinalsProg_DSA_HCI
             Console.Clear();
             title();
 
-
-            Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t ---->  Do you have an account? (Y/N): ");
+            Console.Write($"\n\n{smallpad} ---->  Do you have an account? (Y/N): ");
             try
             {
                 char hasAccount = char.ToUpper(Convert.ToChar(Console.ReadLine()));
@@ -234,13 +274,13 @@ namespace FinalsProg_DSA_HCI
                     return true;
                 }
 
-                Console.WriteLine("\nInvalid input. Please type Y or N.");
+                Console.WriteLine($"\n{pad}Invalid input. Please type Y or N.");
             }
             catch (Exception)
             {
-                Console.WriteLine("\nInvalid input. Please type exactly one character.");
+                Console.WriteLine($"\n {pad}Invalid input. Please type exactly one character.");
             }
-            Console.WriteLine("Press any key to try again...");
+            Console.WriteLine($"{pad}Press any key to try again...");
             Console.ReadKey();
             Console.Clear();
             return true;
@@ -252,7 +292,7 @@ namespace FinalsProg_DSA_HCI
             {
                 Console.Clear();
                 Accountcreationdisplay();
-                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\tWould you like to sign up? (Y/N) :");
+                Console.Write($"\n\n{pad}tWould you like to sign up? (Y/N) :");
                 try
                 {
                     char signupchoice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
@@ -267,29 +307,29 @@ namespace FinalsProg_DSA_HCI
                         Environment.Exit(0);
                     }
 
-                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tInvalid input. Please type Y or N.");
+                    Console.WriteLine($"\n\n{pad}Invalid input. Please type Y or N.");
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tInvalid input. Please type exactly one character.");
+                    Console.WriteLine($"\n\n{pad}Invalid input. Please type exactly one character.");
                 }
-                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tPress any key to try again...");
+                Console.WriteLine("$\n\n{pad}Press any key to try again...");
                 Console.ReadKey();
             }
             while (true)
             {
                 Console.Clear();
                 Accountcreationdisplay();
-                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t\t\t\t[Creating New Account]");
-                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\t\tEnter Username: ");
+                Console.WriteLine($"\n\n{pad}[Creating New Account]");
+                Console.Write($"\n\n{pad}Enter Username: ");
                 string user = Console.ReadLine()?.Trim();
 
-                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\t\tEnter Password: ");
+                Console.Write($"\n\n{pad}Enter Password: ");
                 string pass = Console.ReadLine()?.Trim();
 
                 if (userDatabase.ContainsKey(user) || string.IsNullOrEmpty(user))
                 {
-                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t Username invalid or already exists. Press any key to try again.");
+                    Console.WriteLine($"\n\n{pad} Username invalid or already exists. Press any key to try again.");
                     Console.ReadKey();
                     continue;
                 }
@@ -297,7 +337,7 @@ namespace FinalsProg_DSA_HCI
                 userDatabase.Add(user, new string[] { pass, "0" });
                 File.AppendAllText(DatabaseFilePath, $"{user},{pass},0\n");
 
-                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\tRegistration Successful! Press any key to continue");
+                Console.WriteLine($"\n\n{pad}Registration Successful! Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
                 return;
@@ -309,16 +349,16 @@ namespace FinalsProg_DSA_HCI
             while (true)
             {
                 logindisplay();
-                Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t\t\t\t[Login Session]");
-                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\t\tEnter Username: ");
+                Console.WriteLine($"\n\n{pad}[Login Session]");
+                Console.Write($"\n\n{pad}Enter Username: ");
                 string user = Console.ReadLine().Trim();
 
-                Console.Write("\n\n\t\t\t\t\t\t\t\t\t\t\t\tEnter Password: ");
+                Console.Write($"\n\n{pad}Enter Password: ");
                 string pass = Console.ReadLine().Trim();
 
                 if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
                 {
-                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t\t\t\tFields cannot be empty. Press any key to try again.");
+                    Console.WriteLine($"\n\n{smallpad}Fields cannot be empty. Press any key to try again.");
                     Console.ReadKey();
                     Console.Clear();
                     continue;
@@ -327,13 +367,13 @@ namespace FinalsProg_DSA_HCI
                 if (userDatabase.ContainsKey(user) && userDatabase[user][0] == pass)
                 {
                     currentLoggedInUser = user;
-                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t\tLogin Successful! Redirecting to main dashboard...");
+                    Console.WriteLine($"\n\n{smallpad}Login Successful! Redirecting to main dashboard...");
                     Console.ReadKey();
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine("\n\n\t\t\t\t\t\t\t\t\t\t[ Invalid Details ] Press any key to try again.");
+                    Console.WriteLine($"\n\n{smallpad}[ Invalid Details ] Press any key to try again.");
                     Console.ReadKey();
                     Console.Clear();
                     continue;
@@ -343,34 +383,45 @@ namespace FinalsProg_DSA_HCI
         static int DisplayMenu()
         {
             Console.Clear();
-            Console.WriteLine("Welcome to Donor's Drive");
-            Console.WriteLine("1. Donate");
-            Console.WriteLine("2. View donor status and ranking");
-            Console.WriteLine("3. View requests");
-            Console.WriteLine("4. Make a request");
-            Console.WriteLine("5. History of completed request from you");
-            Console.WriteLine("6. View profile");
-            Console.WriteLine("7. Log out");
+            Console.WriteLine(@" 
+                                    ________      ______    _____  ___      ______     _______    ____  ________      ________    _______    __  ___      ___  _______  
+                                    |""      ""\    /    "" \  (\""   \|""  \    /    "" \   /""      \  ))_ "")/""       )    |""      ""\  /""      \  |"" \|""  \    /""  |/""     ""| 
+                                    (.  ___  :)  // ____  \ |.\\   \    |  // ____  \ |:        |(____((:   \___/     (.  ___  :)|:        | ||  |\   \  //  /(: ______) 
+                                    |: \   ) || /  /    ) :)|: \.   \\  | /  /    ) :)|_____/   )       \___  \       |: \   ) |||_____/   ) |:  | \\  \/. ./  \/    |   
+                                    (| (___\ ||(: (____/ // |.  \    \. |(: (____/ //  //      /         __/  \\      (| (___\ || //      /  |.  |  \.    //   // ___)_  
+                                    |:       :) \        /  |    \    \ | \        /  |:  __   \        /"" \   :)     |:       :)|:  __   \  /\  |\  \\   /   (:      ""| 
+                                    (________/   \""_____/    \___|\____\)  \""_____/   |__|  \___)      (_______/      (________/ |__|  \___)(__\_|_)  \__/     \_______) 
+                                                                                                                                     ");
+            Console.WriteLine($"{pad}Logged in as: {currentLoggedInUser}\n");
+
+            Console.WriteLine($"{pad}[1] Donate\n");
+            Console.WriteLine($"{pad}[2] View Status & Ranking\n");
+            Console.WriteLine($"{pad}[3] View Requests\n");
+            Console.WriteLine($"{pad}[4] Make a Request\n");
+            Console.WriteLine($"{pad}[5] View Completed Requests\n");
+            Console.WriteLine($"{pad}[6] View Profile\n");
+            Console.WriteLine($"{pad}[7] Delete Request\n");
+            Console.WriteLine($"{pad}[8]  Log Out\n");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (choice >= 1 && choice <= 7)
+                if (choice >= 1 && choice <= 9)
                 {
                     return choice;
                 }
                 else
                 {
-                    Console.WriteLine("\nInvalid input. Please type 1 to 6.");
-                    Console.WriteLine("Press any key to try again...");
+                    Console.WriteLine($"{pad}\nInvalid input. Please type 1 to 6.");
+                    Console.WriteLine($"{pad}Press any key to try again...");
                     Console.ReadKey();
                     return 0;
                 }
             }
             catch (Exception)
             {
-                Console.WriteLine("\nInvalid input. Please type a valid number.");
-                Console.WriteLine("Press any key to try again...");
+                Console.WriteLine($"{pad}\nInvalid input. Please type a valid number.");
+                Console.WriteLine($"{pad}Press any key to try again...");
                 Console.ReadKey();
                 return 0;
             }
@@ -651,7 +702,7 @@ namespace FinalsProg_DSA_HCI
                         Console.Write($"{itemCounter}. ");
                         string itemInput = Console.ReadLine()?.Trim();
 
-                        if (string.Equals(itemInput, "X"))
+                        if (string.Equals(itemInput.ToUpper(), "X"))
                         {
                             break;
                         }
@@ -730,13 +781,15 @@ namespace FinalsProg_DSA_HCI
                 }
             }
 
+            Notification();
+
             if (unreadCount > 0)
             {
-                Console.WriteLine($"[NOTIFICATION] You have {unreadCount} new completed request(s).");
+                Console.WriteLine($"{pad}[NOTIFICATION] You have {unreadCount} new completed request(s).");
             }
             else
             {
-                Console.WriteLine("[NOTIFICATION] No new updates.");
+                Console.WriteLine($"{pad}[NOTIFICATION] No new updates.");
             }
         }
         static void ExecuteViewAccomplishedRequests()
@@ -900,12 +953,76 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"✓ {achievement}");
             }
 
+            Console.WriteLine("\n=== RANK TIERS ===");
+            Console.WriteLine("Bronze Donor   - 0 Points");
+            Console.WriteLine("Silver Donor   - 50 Points");
+            Console.WriteLine("Gold Donor     - 100 Points");
+            Console.WriteLine("Platinum Donor - 200 Points");
+            Console.WriteLine("Emerald Donor  - 500 Points");
+            Console.WriteLine("Diamond Donor  - 1000 Points");
+            Console.WriteLine("Global Donor   - 2000 Points\n\n");
+
+            string[] achievements =
+                {
+                        "First Donation|10",
+                        "Helping Hand|50",
+                        "Fellow Volunteers|80",
+                        "Community Helper|100",
+                        "Contributor to the Need|200",
+                        "The Benefactor|300",
+                        "A Patron to Society|400",
+                        "The Philanthropist|500",
+                        "The Altruistic Friend|650",
+                        "The Helping Champion|800",
+                        "Mr Beast|1000",
+                        "Greatest of All Time|1500"
+                    };
+
+            foreach (string achievement in achievements)
+            {
+                string[] parts = achievement.Split('|');
+                string name = parts[0];
+                int requiredPoints = int.Parse(parts[1]);
+
+                string status = points >= requiredPoints ? "[UNLOCKED]" : "[LOCKED]";
+
+                Console.WriteLine($"{status,-11} {name} ({requiredPoints} pts)");
+            }
+
+
             Console.ReadKey();
         }
-
         static void DeleteRequests(List<string> RequestListmaker)
         {
+            Console.Clear();
             Console.WriteLine("Choose a request you made that you want to remove:");
+
+            List<int> userRequestIndexes = new List<int>();
+
+            for (int i = 0; i < RequestListmaker.Count; i++)
+            {
+                string[] ticketLines = RequestListmaker[i].Split('\n');
+
+                if (ticketLines.Length > 0 &&
+                    ticketLines[0].Contains("Posted by:") &&
+                    ticketLines[0].Replace("Posted by:", "").Trim() == currentLoggedInUser)
+                {
+                    userRequestIndexes.Add(i);
+
+                    Console.WriteLine($"\nRequest #{userRequestIndexes.Count}");
+                    Console.WriteLine(RequestListmaker[i]);
+                }
+            }
+
+            if (userRequestIndexes.Count == 0)
+            {
+                Console.WriteLine("\nYou have no requests to delete.");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Write("\nEnter request number to delete (0 to cancel): ");
+
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
@@ -915,50 +1032,36 @@ namespace FinalsProg_DSA_HCI
                     return;
                 }
 
-                int targetIndex = choice - 1;
-                if (targetIndex >= 0 && targetIndex < RequestListmaker.Count)
+                if (choice < 1 || choice > userRequestIndexes.Count)
                 {
-                    string selectedTicket = RequestListmaker[targetIndex];
-                    string originalRequester = "Someone";
-                    string[] ticketLines = selectedTicket.Split('\n');
-                    if (ticketLines.Length > 0 && ticketLines[0].Contains("Posted by:"))
-                    {
-                        originalRequester = ticketLines[0].Replace("Posted by:", "").Trim();
-                    }
-
-                    if (originalRequester != currentLoggedInUser)
-                    {
-                        Console.WriteLine("\nYou can only delete your own request.");
-                        Console.WriteLine("Press any key to return...");
-                        Console.ReadKey();
-                        return;
-                    }
-
-                    File.AppendAllText(AccomplishedFilePath,
-                        $"{originalRequester}|{currentLoggedInUser}|Donation Pack|Completed|\n");
-
-                    //removes the accomplished item
-                    RequestListmaker.RemoveAt(targetIndex);
-
-                    // rewriter
-                    File.WriteAllText(RequestsFilePath, "");
-                    foreach (string ticket in RequestListmaker)
-                    {
-                        File.AppendAllText(RequestsFilePath, ticket + "=========================\n");
-                    }
-
-                    // Update the file
-                    File.WriteAllText(DatabaseFilePath, "");
-                    foreach (var entry in userDatabase)
-                    {
-                        File.AppendAllText(DatabaseFilePath, $"{entry.Key},{entry.Value[0]},{entry.Value[1]}\n");
-                    }
+                    Console.WriteLine("\nInvalid selection.");
+                    Console.ReadKey();
+                    return;
                 }
+
+                int targetIndex = userRequestIndexes[choice - 1];
+
+                // Remove request
+                RequestListmaker.RemoveAt(targetIndex);
+
+                // Rewrite requests file
+                File.WriteAllText(RequestsFilePath, "");
+
+                foreach (string ticket in RequestListmaker)
+                {
+                    File.AppendAllText(RequestsFilePath,
+                        ticket + "=========================\n");
+                }
+
+                Console.WriteLine("\nRequest deleted successfully.");
             }
             catch (Exception)
             {
                 Console.WriteLine("\nInvalid input. Expected a valid number entry.");
             }
+
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
         }
     }
 }
