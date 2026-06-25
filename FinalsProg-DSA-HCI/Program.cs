@@ -18,152 +18,84 @@ namespace FinalsProg_DSA_HCI
         static string ReadNotificationsFilePath = "readnotifications.txt"; //forlogin notifications
         static string pad = new string('\t', 11);
         static string smallpad = new string('\t', 10);
-        static void logo()
-        {
-            string header = @"
-                                      @@@@@@@@@@@@                                    
-                               @@@@@@@@@@@@@@@@@@@@@@@@@@                              
-                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                          
-                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                      
-                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                    
-                   @@@@@@@@@@@@@@@                    @@@@@@@@@@@@@@@                  
-                 @@@@@@@@@@@@@                            @@@@@@@@@@@@@                
-               @@@@@@@@@@@@                                  @@@@@@@@@@@              
-              @@@@@@@@@@@                                      @@@@@@@@@@@            
-            @@@@@@@@@@@  @@@@@@@@@@@@@            @@@@@@@@@@@@   @@@@@@@@@@            
-           @@@@@@@@@@ @@@@@@@@@@@@@@@@@@@      @@@@@@@@@@@@@@@@@@  @@@@@@@@@          
-          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@          
-          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
-         @@@@@@@@@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
-        @@@@@@@@@ @@@@@@@@@@@@@@  @@@  @@@ @@@@  @@@@@@@@@@@@@@@@@@@@@ @@@@@@@@        
-        @@@@@@@@  @@@@@@@@@@@@@@  @@@      @@@@  @@@@@@@@@@@@@@@@@@@@@  @@@@@@@@      
-       @@@@@@@@@ @@@@@@@@@@@@@@@  @@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@  @@@@@@@@      
-       @@@@@@@@  @@@@@@@@@@@@@@@  @@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@      
-       @@@@@@@@   @@@@@@     @@   @@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@   @@@@@@@@      
-       @@@@@@@@   @@@@@@ @@@  @@@@@    @@@@@@@@  @@@@@@@@@@@@@@@@@@@@@   @@@@@@@@      
-       @@@@@@@@   @@@@@@ @@@  @@  @@@@  @@@@@@@  @@@@@@@@@@@@@@@@@@@@    @@@@@@@@      
-       @@@@@@@@    @@@@@ @@@  @@@@@@ @@@@@@    @@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@      
-       @@@@@@@@    @@@@@@   @@              @@@@@@@@@@@@@@@    @@@@@     @@@@@@@@      
-       @@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@           @@@ @@@@    @@@@@@@@      
-        @@@@@@@@     @@@@@@@@@@@@@@@@@@@@@  @@@  @@@@@@@@@ @@@@ @@@     @@@@@@@@      
-        @@@@@@@@@     @@@@@@@@@@@@@@@@@@@@            @@@@ @@@@ @      @@@@@@@@@      
-         @@@@@@@@      @@@@@@@@@@@@@@@@@@@@     @@@@@@@        @      @@@@@@@@@        
-         @@@@@@@@@       @@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@       @@@@@@@@        
-          @@@@@@@@@       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@       @@@@@@@@@@        
-           @@@@@@@@@@       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@       @@@@@@@@@@          
-            @@@@@@@@@@        @@@@@@@@@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@            
-             @@@@@@@@@@@        @@@@@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@            
-               @@@@@@@@@@@        @@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@@              
-                @@@@@@@@@@@@@       @@@@@@@@@@@@@@@@       @@@@@@@@@@@@                
-                  @@@@@@@@@@@@@@       @@@@@@@@@@      @@@@@@@@@@@@@@@                
-                    @@@@@@@@@@@@@@@@@@   @@@@@@   @@@@@@@@@@@@@@@@@@                  
-                       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                      
-                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                        
-                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@                            
-                                   @@@@@@@@@@@@@@@@@@                                  
-                                                                                       
+        static string Apad = new string('\t', 8);
+        static string Bpad = new string('\t', 7);
+        static string Cpad = new string('\t', 6);
+        static string Dpad = new string('\t', 5);
+        static string Epad = new string('\t', 4);
 
-            ";
-            Console.WriteLine(header);
-        }
         static void title()
         {
-            string asciiArt = @"
-                                                                            :@@@@@@*                                           :@@%          
-                                                                            =@@@@@@@@@:                                        +@@@          
-                                                                            =@@@  -#@@@.    ..          .        ..          . .@@    ..     
-                                                                            =@@@   =@@@#.@@@@@@@@ =@@@@@@@@+ :@@@@@@@# +@@@@@@=    *@@@@@.   
-                                                                            =@@@   +@@@*@@@- -#@@@=@@@ .*@@@=@@@  -%@@#+@@@ .     :%@@@#:    
-                                                                            =@@@. @@@@*=@@@=  #@@@=@@@  +@@@+@@@. .@@@*+@@@        .-*@@@@   
-                                                                            =@@@@@@@*   =@@@@@@@# =@@@  +@@@.+@@@@@@@= +@@@       =@@@@@@=        
-                                                                                    -@@@@@@@@:           __                               
-                                                                                    -@@@+=#@@@@          --                                 
-                                                                                    -@@@=  =@@@#.###-%@#:##*=##*   +##+  +@@%+              
-                                                                                    -@@@=  :%@@%+@@@@@@:*@@%=@@@# #@@%.@@@-=%@@-            
-                                                                                    -@@@=  *@@@=+@@@    *@@# =%@@%@@% *@@@@@@@@*            
-                                                                                    -@@@@@@@@@: +@@@    *@@#  -@@@@%  =@@@+.=@#             
-                                                                                    -@@@@@@=    +@@@    *@@#   -%@@    :*@@@@%. ";
+            string asciiArt = $@"
+{Dpad} _    _      _                            _                 
+{Dpad}| |  | |    | |                          | |                
+{Dpad}| |  | | ___| | ___ ___  _ __ ___   ___  | |_ ___           
+{Dpad}| |/\| |/ _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \          
+{Dpad}\  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) |         
+{Dpad} \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/                 
+{Dpad}______                       _      ______      _           
+{Dpad}|  _  \                     ( )     |  _  \    (_)          
+{Dpad}| | | |___  _ __   ___  _ __|/ ___  | | | |_ __ ___   _____ 
+{Dpad}| | | / _ \| '_ \ / _ \| '__| / __| | | | | '__| \ \ / / _ \
+{Dpad}| |/ / (_) | | | | (_) | |    \__ \ | |/ /| |  | |\ V /  __/
+{Dpad}|___/ \___/|_| |_|\___/|_|    |___/ |___/ |_|  |_| \_/ \___| 
+{Dpad}════════════════════════════════════════════════════════════";
             Console.WriteLine(asciiArt);
 
         }
         static void logindisplay()
         {
-            string art = @"                                                                                                                                                                                                                                                                                                                   
-                                                                                                                
-                                                            .*@@@@:                                                  +@@@@:                                 
-                                                            :#@@@@:                                                 =%@@@@*                                 
-                                                            :#@@@@:                                                 .=#%*                                   
-                                                            :#@@@@:                                                                                         
-                                                            :#@@@@:            @@@@@@@@-       #@@@@@@+@@@@=         *@@@@   %@@@%=@@@@@@-                  
-                                                            :#@@@@:         *@@@@@@@@@@@@=  .%@@@@@@@@@@@@@=        :#@@@@  =@@@@@@@@@@@@@@                 
-                                                            :#@@@@:       .#@@@@%:.-+%@@@@#:#@@@@%:.-*%@@@@=        :#@@@@  =@@@@@= .-#@@@@*                
-                                                            :#@@@@:       =%@@@@     *@@@@@+@@@@@    .+@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                            :#@@@@:       =%@@@@=    *@@@@@+%@@@@:    *@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                            :#@@@@@@@@@@@@:*@@@@@@@@@@@@@@..*@@@@@@@@@@@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                            :#@@@@@@@@@@@@ .=%@@@@@@@@@@+   :*@@@@@@@@@@@@@=        :#@@@@  =@@@@#   .*@@@@*                
-                                                            .===========:     :=+*##*-        .=+###=:+@@@@=        .===:   :===.     -==-                  
-                                                                                              =%%:   =@@@@@.                                                
-                                                                                             *@@@@@@@@@@@@@=                                                 
-                                                                                              .=#@@@@@@@@@-                                                   
-                                                                                                   ...  ";
+            string art = $@"                                                                                                                                                                                                                                                                                                                   
+{Bpad}   _                 _       
+{Bpad}  | |               (_)      
+{Bpad}  | |     ___   __ _ _ _ __  
+{Bpad}  | |    / _ \ / _` | | '_ \ 
+{Bpad}  | |___| (_) | (_| | | | | |
+{Bpad}  \_____/\___/ \__, |_|_| |_|
+{Bpad}                __/ |        
+{Bpad}               |___/     
+
+{Bpad}  ═══════════════════════════";
             Console.WriteLine(art);
         }
         static void Accountcreationdisplay()
         {
-            string art = @"
-                                                                              *@@@                                                                
-                                                                             +@@@@%                                                    .@@@       
-                                                                            -@@@@@@#                                                   =@@@       
-                                                                           .@@@#+@@@.   *@@@@@- #@@@@@. #@@@@@@# =@@@  -%@@.+@@@@@@@@*+@@@@@@     
-                                                                           #@@@**@@@@.:@@@* . -@@@+ . -@@@*.=#@@@=@@@  -%@@.+@@@.:*@@@.=@@@.      
-                                                                          +@@@@@@@@@@@+@@@.   =@@@:   =@@@:  *@@@+@@@. -@@@.+@@@  +@@@ =@@@.      
-                                                                         -@@@=    =@@@#*@@@@@@:#@@@@@@-#@@@@@@@@--%@@@@@@@@ +@@@  +@@@ -@@@@%     
-                                                                        .***:     .***- :+%@%:  :+%@%:  :+#@@*    :=*%@@*   =**:  =**-  -*@%-     
-                                                                                                                                                    
-                                                                        -%@@@%=                                     =@=                        
-                                                                      -@@@@@@@@@.                              #%# .*@@@                        
-                                                                     #@@@*    .                               +@@@   .                          
-                                                                    =@@@*        +@@@%@@@ :@@@@@%.  *@@@@@@@@+@@@@@@=@@@  :%@@@@@* .#@@@@@@@%   
-                                                                    =@@@*        *@@@#++ #@@*.=@@@=@@@@=*@@@@-*@@@: +@@@ #@@@++@@@@:#@@@-+@@@#  
-                                                                    :#@@@#       *@@@   -@@@@%%%%%#@@@   +@@@ +@@@  +@@@-@@@+  -@@@*#@@+ .#@@#  
-                                                                     :*@@@@@@@@@-*@@@   :*@@@%*@@@=%@@@@@@@@@ +@@@@++@@@:*@@@@@@@@%.#@@+ .#@@#  
-                                                                       .=#@@@@%=.*@@*     =#@@@%=  :*@@@%*@@# .+@@@#+@@*  -#@@@@*. .#@%- .#@@+  ";
+            string art = $@"
+{Dpad}  ___                            _      
+{Dpad} / _ \                          | |     
+{Dpad}/ /_\ \ ___ ___ ___  _   _ _ __ | |_    
+{Dpad}|  _  |/ __/ __/ _ \| | | | '_ \| __|   
+{Dpad}| | | | (_| (_| (_) | |_| | | | | |_    
+{Dpad}\_| |_/\___\___\___/ \__,_|_| |_|\__|                                     
+{Dpad} _____                _   _             
+{Dpad}/  __ \              | | (_)            
+{Dpad}| /  \/_ __ ___  __ _| |_ _  ___  _ __  
+{Dpad}| |   | '__/ _ \/ _` | __| |/ _ \| '_ \ 
+{Dpad}| \__/\ | |  __/ (_| | |_| | (_) | | | |
+{Dpad} \____/_|  \___|\__,_|\__|_|\___/|_| |_|
+
+{Dpad} ═══════════════════════════════════════";
             Console.WriteLine(art);
         }
         static void Notification()
         {
-            string notifart = @"                                                                          
-                                                                                                    .-====-:                                 
-                                                                                                   .-======-.                                
-                                                                                                 .:-=:.  .:=-:.                              
-                                                                                              :-----:......:====-:.                          
-                                                                                           .:-----:....... .:--===-:.                        
-                                                                                          :---:...........      :-==-:.                      
-                                                                                        .:--.............         .:==-.                     
-                                                                                        .:-:............             :-=-.                    
-                                                                                       :-:...........                .-=:                    
-                                                                                      .--..........                   .=-.                   
-                                                                                      :=:.........                     -=:                   
-                                                                                      -=........                       .=-                   
-                                                                                      --.......                        .==                   
-                                                                                      ==.....                      .....==                   
-                                                                                      ==....                      ......==                   
-                                                                                      ==........                  ......==                   
-                                                                                      ==.........            ...........==                   
-                                                                                      =+................................+=                   
-                                                                                      ++.........................:.....:+=                   
-                                                                                     :*+................................+*:                  
-                                                                                    .-##-................................-**-.                
-                                                                                 .-*##*-..................................-*##*-.             
-                                                                               .=%%#+:....................................:+###=.            
-                                                                               .*#:..................::::::..................-#*.            
-                                                                               .+%#######*******==+*++++++++++==*****#########%+.            
-                                                                                :+##########****%@#%##########@@*****#########+:             
-                                                                                               .#@#----====--+@%.                            
-                                                                                                -@@@+.::::.+@@@=                             
-                                                                                                 +@@@@@@@@@@@@+                              
-                                                                                                  .+@@@@@@@@+.                               
-                                             ";
+            string notifart = $@"                                                                          
+{Bpad}                :--:                  
+{Bpad}             .------.                
+{Bpad}           .------------.             
+{Bpad}          :-------------=:            
+{Bpad}         ----------------=-           
+{Bpad}         ---------------===.          
+{Bpad}        .-------------=====.          
+{Bpad}        .==================.          
+{Bpad}        .==================.          
+{Bpad}        .==================.          
+{Bpad}        -==================-          
+{Bpad}     .-====================-.        
+{Bpad}     -========================-.      
+{Bpad}     .--------========--------.       
+{Bpad}              =++++++=                
+{Bpad}               .=++=.  ";
             Console.WriteLine(notifart);
         }
         static void Main(string[] args)
@@ -255,8 +187,7 @@ namespace FinalsProg_DSA_HCI
         {
             Console.Clear();
             title();
-
-            Console.Write($"\n\n{smallpad} ---->  Do you have an account? (Y/N): ");
+            Console.Write($"\n{Dpad}\t ---->  Do you have an account? (Y/N): ");
             try
             {
                 char hasAccount = char.ToUpper(Convert.ToChar(Console.ReadLine()));
@@ -274,13 +205,13 @@ namespace FinalsProg_DSA_HCI
                     return true;
                 }
 
-                Console.WriteLine($"\n{pad}Invalid input. Please type Y or N.");
+                Console.WriteLine($"\n{Bpad}Invalid input. Please type Y or N.");
             }
             catch (Exception)
             {
-                Console.WriteLine($"\n {pad}Invalid input. Please type exactly one character.");
+                Console.WriteLine($"\n {Bpad}Invalid input. Please type exactly one character.");
             }
-            Console.WriteLine($"{pad}Press any key to try again...");
+            Console.WriteLine($"{Bpad}Press any key to try again...");
             Console.ReadKey();
             Console.Clear();
             return true;
@@ -292,7 +223,7 @@ namespace FinalsProg_DSA_HCI
             {
                 Console.Clear();
                 Accountcreationdisplay();
-                Console.Write($"\n\n{pad}tWould you like to sign up? (Y/N) :");
+                Console.Write($"\n{Dpad} Would you like to sign up? (Y/N) :");
                 try
                 {
                     char signupchoice = char.ToUpper(Convert.ToChar(Console.ReadLine()));
@@ -307,29 +238,29 @@ namespace FinalsProg_DSA_HCI
                         Environment.Exit(0);
                     }
 
-                    Console.WriteLine($"\n\n{pad}Invalid input. Please type Y or N.");
+                    Console.WriteLine($"\n{Bpad} Invalid input. Please type Y or N.");
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine($"\n\n{pad}Invalid input. Please type exactly one character.");
+                    Console.WriteLine($"\n{Bpad} Invalid input. Please type exactly one character.");
                 }
-                Console.WriteLine("$\n\n{pad}Press any key to try again...");
+                Console.WriteLine($"\n{Bpad} Press any key to try again...");
                 Console.ReadKey();
             }
             while (true)
             {
                 Console.Clear();
                 Accountcreationdisplay();
-                Console.WriteLine($"\n\n{pad}[Creating New Account]");
-                Console.Write($"\n\n{pad}Enter Username: ");
+                Console.WriteLine($"\n\n{Cpad}[Creating New Account]");
+                Console.Write($"\n\n{Cpad}Enter Username: ");
                 string user = Console.ReadLine()?.Trim();
 
-                Console.Write($"\n\n{pad}Enter Password: ");
+                Console.Write($"\n\n{Cpad}Enter Password: ");
                 string pass = Console.ReadLine()?.Trim();
 
                 if (userDatabase.ContainsKey(user) || string.IsNullOrEmpty(user))
                 {
-                    Console.WriteLine($"\n\n{pad} Username invalid or already exists. Press any key to try again.");
+                    Console.WriteLine($"\n\n{Dpad} Username invalid or already exists. Press any key to try again.");
                     Console.ReadKey();
                     continue;
                 }
@@ -337,7 +268,7 @@ namespace FinalsProg_DSA_HCI
                 userDatabase.Add(user, new string[] { pass, "0" });
                 File.AppendAllText(DatabaseFilePath, $"{user},{pass},0\n");
 
-                Console.WriteLine($"\n\n{pad}Registration Successful! Press any key to continue");
+                Console.WriteLine($"\n\n{Dpad}Registration Successful! Press any key to continue");
                 Console.ReadKey();
                 Console.Clear();
                 return;
@@ -349,16 +280,16 @@ namespace FinalsProg_DSA_HCI
             while (true)
             {
                 logindisplay();
-                Console.WriteLine($"\n\n{pad}[Login Session]");
-                Console.Write($"\n\n{pad}Enter Username: ");
+                Console.WriteLine($"\n\n{Apad}[Login Session]");
+                Console.Write($"\n\n{Apad}Enter Username: ");
                 string user = Console.ReadLine().Trim();
 
-                Console.Write($"\n\n{pad}Enter Password: ");
+                Console.Write($"\n\n{Apad}Enter Password: ");
                 string pass = Console.ReadLine().Trim();
 
                 if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
                 {
-                    Console.WriteLine($"\n\n{smallpad}Fields cannot be empty. Press any key to try again.");
+                    Console.WriteLine($"\n\n{Bpad}Fields cannot be empty. Press any key to try again.");
                     Console.ReadKey();
                     Console.Clear();
                     continue;
@@ -367,13 +298,13 @@ namespace FinalsProg_DSA_HCI
                 if (userDatabase.ContainsKey(user) && userDatabase[user][0] == pass)
                 {
                     currentLoggedInUser = user;
-                    Console.WriteLine($"\n\n{smallpad}Login Successful! Redirecting to main dashboard...");
+                    Console.WriteLine($"\n\n{Bpad}Login Successful! Redirecting to main dashboard...");
                     Console.ReadKey();
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine($"\n\n{smallpad}[ Invalid Details ] Press any key to try again.");
+                    Console.WriteLine($"\n\n{Bpad}[ Invalid Details ] Press any key to try again.");
                     Console.ReadKey();
                     Console.Clear();
                     continue;
@@ -383,25 +314,25 @@ namespace FinalsProg_DSA_HCI
         static int DisplayMenu()
         {
             Console.Clear();
-            Console.WriteLine(@" 
-                                    ________      ______    _____  ___      ______     _______    ____  ________      ________    _______    __  ___      ___  _______  
-                                    |""      ""\    /    "" \  (\""   \|""  \    /    "" \   /""      \  ))_ "")/""       )    |""      ""\  /""      \  |"" \|""  \    /""  |/""     ""| 
-                                    (.  ___  :)  // ____  \ |.\\   \    |  // ____  \ |:        |(____((:   \___/     (.  ___  :)|:        | ||  |\   \  //  /(: ______) 
-                                    |: \   ) || /  /    ) :)|: \.   \\  | /  /    ) :)|_____/   )       \___  \       |: \   ) |||_____/   ) |:  | \\  \/. ./  \/    |   
-                                    (| (___\ ||(: (____/ // |.  \    \. |(: (____/ //  //      /         __/  \\      (| (___\ || //      /  |.  |  \.    //   // ___)_  
-                                    |:       :) \        /  |    \    \ | \        /  |:  __   \        /"" \   :)     |:       :)|:  __   \  /\  |\  \\   /   (:      ""| 
-                                    (________/   \""_____/    \___|\____\)  \""_____/   |__|  \___)      (_______/      (________/ |__|  \___)(__\_|_)  \__/     \_______) 
-                                                                                                                                     ");
-            Console.WriteLine($"{pad}Logged in as: {currentLoggedInUser}\n");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"\n{Cpad}User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
 
-            Console.WriteLine($"{pad}[1] Donate\n");
-            Console.WriteLine($"{pad}[2] View Status & Ranking\n");
-            Console.WriteLine($"{pad}[3] View Requests\n");
-            Console.WriteLine($"{pad}[4] Make a Request\n");
-            Console.WriteLine($"{pad}[5] View Completed Requests\n");
-            Console.WriteLine($"{pad}[6] View Profile\n");
-            Console.WriteLine($"{pad}[7] Delete Request\n");
-            Console.WriteLine($"{pad}[8]  Log Out\n");
+            Console.ResetColor();
+
+            Console.WriteLine();
+
+            Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
+            Console.WriteLine($"{Dpad}║              MAIN MENU               ║");
+            Console.WriteLine($"{Dpad}╠══════════════════════════════════════╣");
+            Console.WriteLine($"{Dpad}║ [1] Donate                           ║");
+            Console.WriteLine($"{Dpad}║ [2] View Status & Ranking            ║");
+            Console.WriteLine($"{Dpad}║ [3] View Requests                    ║");
+            Console.WriteLine($"{Dpad}║ [4] Make Request                     ║");
+            Console.WriteLine($"{Dpad}║ [5] Completed Requests               ║");
+            Console.WriteLine($"{Dpad}║ [6] Profile                          ║");
+            Console.WriteLine($"{Dpad}║ [7] Delete Request                   ║");
+            Console.WriteLine($"{Dpad}║ [8] Logout                           ║");
+            Console.WriteLine($"{Dpad}╚══════════════════════════════════════╝");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
@@ -412,7 +343,9 @@ namespace FinalsProg_DSA_HCI
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"{pad}\nInvalid input. Please type 1 to 6.");
+                    Console.ResetColor();
                     Console.WriteLine($"{pad}Press any key to try again...");
                     Console.ReadKey();
                     return 0;
@@ -420,7 +353,9 @@ namespace FinalsProg_DSA_HCI
             }
             catch (Exception)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{pad}\nInvalid input. Please type a valid number.");
+                Console.ResetColor();
                 Console.WriteLine($"{pad}Press any key to try again...");
                 Console.ReadKey();
                 return 0;
@@ -429,6 +364,7 @@ namespace FinalsProg_DSA_HCI
         static void ExecuteDonation(List<string> RequestListmaker)
         {
             Console.Clear();
+            Console.WriteLine($" User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
             Console.WriteLine("=================================");
             Console.WriteLine("       FULFILL A REQUEST         ");
             Console.WriteLine("=================================");
@@ -443,8 +379,16 @@ namespace FinalsProg_DSA_HCI
 
             for (int i = 0; i < RequestListmaker.Count; i++)
             {
-                Console.WriteLine($"--- Request #{i + 1} ---");
-                Console.WriteLine(RequestListmaker[i]);
+                string cleanRequest = RequestListmaker[i].Replace("=========================", "").Trim();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔═══════════════════════════════════════╗");
+                Console.WriteLine($"REQUEST #{i + 1}");
+                Console.WriteLine("╠═══════════════════════════════════════╣");
+
+                Console.WriteLine(cleanRequest);
+                Console.WriteLine("╚═══════════════════════════════════════╝");
+                Console.WriteLine();
+                Console.ResetColor();
             }
 
             Console.Write("Enter the number of the request you want to fulfill (or 0 to cancel): ");
@@ -563,7 +507,9 @@ namespace FinalsProg_DSA_HCI
             }
             catch (Exception)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nInvalid input. Expected a valid number entry.");
+                Console.ResetColor();
             }
 
             Console.WriteLine("\nPress any key to return to dashboard...");
@@ -621,28 +567,39 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine("\nPress any key to return to dashboard...");
             Console.ReadKey();
         }
-        static void ExecuteViewRequests(List<string> Requestlistmaker)
+        static void ExecuteViewRequests(List<string> RequestListmaker)
         {
             Console.Clear();
+            Console.WriteLine($" User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
             Console.WriteLine("=================================");
             Console.WriteLine("       ACTIVE REQUESTS           ");
             Console.WriteLine("=================================");
 
-            if (Requestlistmaker.Count == 0)
+            if (RequestListmaker.Count == 0)
             {
                 Console.WriteLine("\nNo active requests found at this time.");
             }
             else
             {
-                Console.WriteLine($"Found ({Requestlistmaker.Count}) Active Request(s):\n");
-                for (int i = 0; i < Requestlistmaker.Count; i++)
+                Console.WriteLine($"Found ({RequestListmaker.Count}) Active Request(s):\n");
+                for (int i = 0; i < RequestListmaker.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {Requestlistmaker[i]}");
+                    string cleanRequest = RequestListmaker[i].Replace("=========================", "").Trim();
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("╔═══════════════════════════════════════╗");
+                    Console.WriteLine($"REQUEST #{i + 1}");
+                    Console.WriteLine("╠═══════════════════════════════════════╣");
+
+                    Console.WriteLine(cleanRequest);
+                    Console.WriteLine("╚═══════════════════════════════════════╝");
+                    Console.WriteLine();
+                    Console.ResetColor();
                 }
             }
             Console.ReadKey();
         }
-        static void ExecuteMakeRequest(List<string> Requestlistmaker)
+        static void ExecuteMakeRequest(List<string> RequestListmaker)
         {
             string title = "";
             string description = "";
@@ -651,6 +608,7 @@ namespace FinalsProg_DSA_HCI
             while (true)
             {
                 Console.Clear();
+                Console.WriteLine($" User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
                 Console.WriteLine("=================================");
                 Console.WriteLine("     CREATE A NEW REQUEST        ");
                 Console.WriteLine("=================================");
@@ -733,7 +691,7 @@ namespace FinalsProg_DSA_HCI
                         }
                     }
 
-                    Requestlistmaker.Add(finalizedTicket);
+                    RequestListmaker.Add(finalizedTicket);
 
                     string filePayload = finalizedTicket + "=========================\n";
                     File.AppendAllText(RequestsFilePath, filePayload);
@@ -749,7 +707,9 @@ namespace FinalsProg_DSA_HCI
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nInvalid option. Press any key to try again...");
+                    Console.ResetColor();
                     Console.ReadKey();
                 }
             }
@@ -782,15 +742,18 @@ namespace FinalsProg_DSA_HCI
             }
 
             Notification();
-
+            Console.WriteLine();
             if (unreadCount > 0)
             {
-                Console.WriteLine($"{pad}[NOTIFICATION] You have {unreadCount} new completed request(s).");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"{Bpad}     [NOTIFICATION] You have {unreadCount} new completed request(s).");
             }
             else
             {
-                Console.WriteLine($"{pad}[NOTIFICATION] No new updates.");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"{Bpad}     [NOTIFICATION] No new updates.");
             }
+            Console.ResetColor();
         }
         static void ExecuteViewAccomplishedRequests()
         {
@@ -941,16 +904,21 @@ namespace FinalsProg_DSA_HCI
 
             int points = int.Parse(userDatabase[currentLoggedInUser][1]);
 
-            Console.WriteLine("=== DONOR PROFILE ===");
-            Console.WriteLine($"Username : {currentLoggedInUser}");
-            Console.WriteLine($"Points   : {points}");
-            Console.WriteLine($"Badge    : {Rankings(points)}");
+            Console.WriteLine("┌──────────────────────────────┐");
+            Console.WriteLine($" Username : {currentLoggedInUser}");
+            Console.WriteLine($" Points   : {points}");
+            Console.WriteLine($" Rank     : {Rankings(points)}");
+            Console.WriteLine("└──────────────────────────────┘");
 
-            Console.WriteLine("\nAchievements:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nAchievements");
+            Console.ResetColor();
 
             foreach (string achievement in GetAchievements(points))
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"✓ {achievement}");
+                Console.ResetColor();
             }
 
             Console.WriteLine("\n=== RANK TIERS ===");
@@ -1034,7 +1002,9 @@ namespace FinalsProg_DSA_HCI
 
                 if (choice < 1 || choice > userRequestIndexes.Count)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nInvalid selection.");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -1057,7 +1027,9 @@ namespace FinalsProg_DSA_HCI
             }
             catch (Exception)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nInvalid input. Expected a valid number entry.");
+                Console.ResetColor();
             }
 
             Console.WriteLine("\nPress any key to return...");
@@ -1065,10 +1037,3 @@ namespace FinalsProg_DSA_HCI
         }
     }
 }
-        
-   
-
-
-                
-           
-    
