@@ -374,7 +374,7 @@ namespace FinalsProg_DSA_HCI
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
+            Console.WriteLine($"{Dpad}   User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
             Console.ResetColor();
             Console.WriteLine($"{Dpad}   =================================");
             Console.WriteLine($"{Dpad}         FULFILL A REQUEST         ");
@@ -382,8 +382,8 @@ namespace FinalsProg_DSA_HCI
 
             if (RequestListmaker.Count == 0)
             {
-                Console.WriteLine("\nThere are no active help requests to fulfill right now.");
-                Console.WriteLine("\nPress any key to return to dashboard...");
+                Console.WriteLine($"\n{Dpad}There are no active help requests to fulfill right now.");
+                Console.WriteLine($"\n{Dpad}Press any key to return to dashboard...");
                 Console.ReadKey();
                 return;
             }
@@ -434,14 +434,14 @@ namespace FinalsProg_DSA_HCI
 
                     if (originalRequester == currentLoggedInUser)
                     {
-                        Console.WriteLine($"{Dpad}\nYou cannot fulfill your own request.");
+                        Console.WriteLine($"\n{Dpad}You cannot fulfill your own request.");
                         Console.WriteLine($"{Dpad}Press any key to return...");
                         Console.ReadKey();
                         return;
                     }
 
                     //adds it to accomplished
-                    Console.Write("Leave a message: ");
+                    Console.Write($"{Dpad}Leave a message: ");
                     string message = Console.ReadLine();
 
                     File.AppendAllText(AccomplishedFilePath,
@@ -469,7 +469,7 @@ namespace FinalsProg_DSA_HCI
                         File.AppendAllText(DatabaseFilePath, $"{entry.Key},{entry.Value[0]},{entry.Value[1]}\n");
                     }
 
-                    Console.WriteLine($"{Dpad}\nThank you for donating! You completed the request.");
+                    Console.WriteLine($"\n{Dpad}Thank you for donating! You completed the request.");
                     Console.WriteLine($"{Dpad}You gained +10 points! Check rankings to see your spot.\n");
                     if (currentPoints == 10)
                     {
@@ -528,11 +528,11 @@ namespace FinalsProg_DSA_HCI
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{Dpad}\nInvalid input. Expected a valid number entry.");
+                Console.WriteLine($"\n{Dpad}Invalid input. Expected a valid number entry.");
                 Console.ResetColor();
             }
 
-            Console.WriteLine($"{Dpad}\nPress any key to return to dashboard...");
+            Console.WriteLine($"\n{Dpad}Press any key to return to dashboard...");
             Console.ReadKey();
         }
         static void ExecuteViewStatus()
@@ -545,11 +545,10 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine($"{Dpad}   =================================");
 
             string currentPoints = userDatabase[currentLoggedInUser][1];
-            Console.WriteLine($"{Dpad}Logged User: {currentLoggedInUser}");
-            Console.WriteLine($"{Dpad}Your Score : {currentPoints} Points\n");
-
-
-            Console.WriteLine("--- LEADERBOARD RANKINGS ---");
+            Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
+            Console.WriteLine($"{Dpad}  Logged User: {currentLoggedInUser}");
+            Console.WriteLine($"{Dpad}  Your Score : {currentPoints} Points");
+            Console.WriteLine($"{Dpad}╚════════ LEADERBOARD RANKINGS ════════╝");
 
             //transfer for leaderboard
             var leaderboard = userDatabase.ToList();
@@ -576,15 +575,13 @@ namespace FinalsProg_DSA_HCI
             {
                 int points2 = int.Parse(player.Value[1]);
 
-                Console.WriteLine(
-                    $"{rank}. {player.Key,-12} : {points2} pts | {Rankings(points2)}"
-                );
+                Console.WriteLine($"{Dpad}{rank}. {player.Key,-12} : {points2} pts | {Rankings(points2)}");
 
                 rank++;
             }
-            Console.WriteLine($"{Dpad}=================================");
+            Console.WriteLine($"{Dpad}════════════════════════════════════════");
 
-            Console.WriteLine($"{Dpad}\nPress any key to return to dashboard...");
+            Console.WriteLine($"\n{Dpad}Press any key to return to dashboard...");
             Console.ReadKey();
         }
         static void ExecuteViewRequests(List<string> RequestListmaker)
@@ -602,7 +599,7 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"{Dpad}\nNo active requests found at this time.");
             }
             else
-            {               
+            {
                 for (int i = 0; i < RequestListmaker.Count; i++)
                 {
                     string cleanRequest = RequestListmaker[i].Replace("=========================", "").Trim();
@@ -642,7 +639,7 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"{Dpad} 1. Title: {title}");
                 Console.WriteLine($"{Dpad} 2. Description: {description}");
 
-                Console.Write($"{Dpad}3. Items Needed: ");
+                Console.Write($"{Dpad} 3. Items Needed: ");
                 if (itemsList.Count == 0)
                 {
                     Console.WriteLine("[None Added]");
@@ -774,9 +771,9 @@ namespace FinalsProg_DSA_HCI
 
                     RequestListmaker.Add(finalizedTicket);
 
-                    File.AppendAllText(RequestsFilePath,finalizedTicket.TrimEnd() +Environment.NewLine + "=========================" +Environment.NewLine);
+                    File.AppendAllText(RequestsFilePath, finalizedTicket.TrimEnd() + Environment.NewLine + "=========================" + Environment.NewLine);
 
-                    Console.WriteLine($"{Dpad}\nYour request has been saved successfully!");
+                    Console.WriteLine($"\n{Dpad}Your request has been saved successfully!");
                     Console.WriteLine($"{Dpad}Press any key to return to menu...");
                     Console.ReadKey();
                     break;
