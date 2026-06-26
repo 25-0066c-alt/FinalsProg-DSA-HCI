@@ -101,14 +101,23 @@ namespace FinalsProg_DSA_HCI
         static void Main(string[] args)
         {
             List<string> RequestListmaker = new List<string>();
+
             if (File.Exists(RequestsFilePath))
             {
+                RequestListmaker.Clear();
+
                 string[] savedTickets = File.ReadAllText(RequestsFilePath)
-                                            .Split(new string[] { " =========================\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    .Split(new string[] { "=========================" },
+                           StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string ticket in savedTickets)
                 {
-                    RequestListmaker.Add(ticket.Trim() + "\n");
+                    string cleanTicket = ticket.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(cleanTicket))
+                    {
+                        RequestListmaker.Add(cleanTicket);
+                    }
                 }
             }
 
@@ -256,7 +265,7 @@ namespace FinalsProg_DSA_HCI
                 string user = Console.ReadLine()?.Trim();
 
                 Console.Write($"\n\n{Cpad}Enter Password: ");
-                string pass = Console.ReadLine()?.Trim();
+                string pass = ReadPassword();
 
                 if (userDatabase.ContainsKey(user) || string.IsNullOrEmpty(user))
                 {
@@ -285,7 +294,7 @@ namespace FinalsProg_DSA_HCI
                 string user = Console.ReadLine().Trim();
 
                 Console.Write($"\n\n{Apad}Enter Password: ");
-                string pass = Console.ReadLine().Trim();
+                string pass = ReadPassword();
 
                 if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
                 {
@@ -364,10 +373,12 @@ namespace FinalsProg_DSA_HCI
         static void ExecuteDonation(List<string> RequestListmaker)
         {
             Console.Clear();
-            Console.WriteLine($" User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
-            Console.WriteLine("=================================");
-            Console.WriteLine("       FULFILL A REQUEST         ");
-            Console.WriteLine("=================================");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
+            Console.ResetColor();
+            Console.WriteLine($"{Dpad}   =================================");
+            Console.WriteLine($"{Dpad}         FULFILL A REQUEST         ");
+            Console.WriteLine($"{Dpad}   =================================");
 
             if (RequestListmaker.Count == 0)
             {
@@ -381,17 +392,20 @@ namespace FinalsProg_DSA_HCI
             {
                 string cleanRequest = RequestListmaker[i].Replace("=========================", "").Trim();
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("╔═══════════════════════════════════════╗");
-                Console.WriteLine($"REQUEST #{i + 1}");
-                Console.WriteLine("╠═══════════════════════════════════════╣");
+                Console.WriteLine($"{Dpad}╔═══════════════════════════════════════╗");
+                Console.WriteLine($"{Dpad}  REQUEST #{i + 1,-33}");
+                Console.WriteLine($"{Dpad}╠═══════════════════════════════════════╣");
 
-                Console.WriteLine(cleanRequest);
-                Console.WriteLine("╚═══════════════════════════════════════╝");
+                foreach (string line in cleanRequest.Split('\n'))
+                {
+                    Console.WriteLine($"{Dpad}{line}");
+                }
+                Console.WriteLine($"{Dpad}╚═══════════════════════════════════════╝");
                 Console.WriteLine();
                 Console.ResetColor();
             }
 
-            Console.Write("Enter the number of the request you want to fulfill (or 0 to cancel): ");
+            Console.Write($"{Dpad}Enter the number of the request you want to fulfill (or 0 to cancel): ");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
@@ -406,16 +420,22 @@ namespace FinalsProg_DSA_HCI
                 {
                     string selectedTicket = RequestListmaker[targetIndex];
                     string originalRequester = "Someone";
+
                     string[] ticketLines = selectedTicket.Split('\n');
-                    if (ticketLines.Length > 0 && ticketLines[0].Contains("Posted by:"))
+
+                    foreach (string line in ticketLines)
                     {
-                        originalRequester = ticketLines[0].Replace("Posted by:", "").Trim();
+                        if (line.StartsWith("Posted by:"))
+                        {
+                            originalRequester = line.Replace("Posted by:", "").Trim();
+                            break;
+                        }
                     }
 
                     if (originalRequester == currentLoggedInUser)
                     {
-                        Console.WriteLine("\nYou cannot fulfill your own request.");
-                        Console.WriteLine("Press any key to return...");
+                        Console.WriteLine($"{Dpad}\nYou cannot fulfill your own request.");
+                        Console.WriteLine($"{Dpad}Press any key to return...");
                         Console.ReadKey();
                         return;
                     }
@@ -449,55 +469,55 @@ namespace FinalsProg_DSA_HCI
                         File.AppendAllText(DatabaseFilePath, $"{entry.Key},{entry.Value[0]},{entry.Value[1]}\n");
                     }
 
-                    Console.WriteLine("\nThank you for donating! You completed the request.");
-                    Console.WriteLine("You gained +10 points! Check rankings to see your spot.\n");
+                    Console.WriteLine($"{Dpad}\nThank you for donating! You completed the request.");
+                    Console.WriteLine($"{Dpad}You gained +10 points! Check rankings to see your spot.\n");
                     if (currentPoints == 10)
                     {
-                        Console.WriteLine("Achievement Unlocked: First Donation!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: First Donation!");
                     }
                     else if (currentPoints == 50)
                     {
-                        Console.WriteLine("Achievement Unlocked: Helping Hand!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: Helping Hand!");
                     }
                     else if (currentPoints == 80)
                     {
-                        Console.WriteLine("Achievement Unlocked: Fellow Volunteers!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: Fellow Volunteers!");
                     }
                     else if (currentPoints == 100)
                     {
-                        Console.WriteLine("Achievement Unlocked: Community Helper!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: Community Helper!");
                     }
                     else if (currentPoints == 200)
                     {
-                        Console.WriteLine("Achievement Unlocked: Contributor to the Need!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: Contributor to the Need!");
                     }
                     else if (currentPoints == 300)
                     {
-                        Console.WriteLine("Achievement Unlocked: The Benefactor!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: The Benefactor!");
                     }
                     else if (currentPoints == 400)
                     {
-                        Console.WriteLine("Achievement Unlocked: A Patron to Society!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: A Patron to Society!");
                     }
                     else if (currentPoints == 500)
                     {
-                        Console.WriteLine("Achievement Unlocked: The Philanthropist!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: The Philanthropist!");
                     }
                     else if (currentPoints == 650)
                     {
-                        Console.WriteLine("Achievement Unlocked: The Altruistic Friend!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: The Altruistic Friend!");
                     }
                     else if (currentPoints == 800)
                     {
-                        Console.WriteLine("Achievement Unlocked: The Helping Champion!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: The Helping Champion!");
                     }
                     else if (currentPoints == 1000)
                     {
-                        Console.WriteLine("Achievement Unlocked: Mr Beast!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: Mr Beast!");
                     }
                     else if (currentPoints == 1500)
                     {
-                        Console.WriteLine("Achievement Unlocked: Greatest of All Time!");
+                        Console.WriteLine($"{Dpad}Achievement Unlocked: Greatest of All Time!");
                     }
                 }
                 else
@@ -508,11 +528,11 @@ namespace FinalsProg_DSA_HCI
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nInvalid input. Expected a valid number entry.");
+                Console.WriteLine($"{Dpad}\nInvalid input. Expected a valid number entry.");
                 Console.ResetColor();
             }
 
-            Console.WriteLine("\nPress any key to return to dashboard...");
+            Console.WriteLine($"{Dpad}\nPress any key to return to dashboard...");
             Console.ReadKey();
         }
         static void ExecuteViewStatus()
@@ -520,13 +540,13 @@ namespace FinalsProg_DSA_HCI
             int points = int.Parse(userDatabase[currentLoggedInUser][1]);
 
             Console.Clear();
-            Console.WriteLine("=================================");
-            Console.WriteLine("    DONOR STATUS & RANKINGS      ");
-            Console.WriteLine("=================================");
+            Console.WriteLine($"{Dpad}   =================================");
+            Console.WriteLine($"{Dpad}      DONOR STATUS & RANKINGS      ");
+            Console.WriteLine($"{Dpad}   =================================");
 
             string currentPoints = userDatabase[currentLoggedInUser][1];
-            Console.WriteLine($"Logged User: {currentLoggedInUser}");
-            Console.WriteLine($"Your Score : {currentPoints} Points\n");
+            Console.WriteLine($"{Dpad}Logged User: {currentLoggedInUser}");
+            Console.WriteLine($"{Dpad}Your Score : {currentPoints} Points\n");
 
 
             Console.WriteLine("--- LEADERBOARD RANKINGS ---");
@@ -557,42 +577,46 @@ namespace FinalsProg_DSA_HCI
                 int points2 = int.Parse(player.Value[1]);
 
                 Console.WriteLine(
-                    $"{rank}. {player.Key,-12} : {points} pts | {Rankings(points)}"
+                    $"{rank}. {player.Key,-12} : {points2} pts | {Rankings(points2)}"
                 );
 
                 rank++;
             }
-            Console.WriteLine("=================================");
+            Console.WriteLine($"{Dpad}=================================");
 
-            Console.WriteLine("\nPress any key to return to dashboard...");
+            Console.WriteLine($"{Dpad}\nPress any key to return to dashboard...");
             Console.ReadKey();
         }
         static void ExecuteViewRequests(List<string> RequestListmaker)
         {
             Console.Clear();
-            Console.WriteLine($" User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
-            Console.WriteLine("=================================");
-            Console.WriteLine("       ACTIVE REQUESTS           ");
-            Console.WriteLine("=================================");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
+            Console.ResetColor();
+            Console.WriteLine($"{Dpad}   =================================");
+            Console.WriteLine($"{Dpad}          ACTIVE REQUESTS           ");
+            Console.WriteLine($"{Dpad}   =================================");
 
             if (RequestListmaker.Count == 0)
             {
-                Console.WriteLine("\nNo active requests found at this time.");
+                Console.WriteLine($"{Dpad}\nNo active requests found at this time.");
             }
             else
-            {
-                Console.WriteLine($"Found ({RequestListmaker.Count}) Active Request(s):\n");
+            {               
                 for (int i = 0; i < RequestListmaker.Count; i++)
                 {
                     string cleanRequest = RequestListmaker[i].Replace("=========================", "").Trim();
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("╔═══════════════════════════════════════╗");
-                    Console.WriteLine($"REQUEST #{i + 1}");
-                    Console.WriteLine("╠═══════════════════════════════════════╣");
+                    Console.WriteLine($"{Dpad}╔═══════════════════════════════════════╗");
+                    Console.WriteLine($"{Dpad}REQUEST #{i + 1}");
+                    Console.WriteLine($"{Dpad}╠═══════════════════════════════════════╣");
 
-                    Console.WriteLine(cleanRequest);
-                    Console.WriteLine("╚═══════════════════════════════════════╝");
+                    foreach (string line in cleanRequest.Split('\n'))
+                    {
+                        Console.WriteLine($"{Dpad}{line}");
+                    }
+                    Console.WriteLine($"{Dpad}╚═══════════════════════════════════════╝");
                     Console.WriteLine();
                     Console.ResetColor();
                 }
@@ -608,14 +632,17 @@ namespace FinalsProg_DSA_HCI
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine($" User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
-                Console.WriteLine("=================================");
-                Console.WriteLine("     CREATE A NEW REQUEST        ");
-                Console.WriteLine("=================================");
-                Console.WriteLine($"1. Title: {title}");
-                Console.WriteLine($"2. Description: {description}");
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
+                Console.ResetColor();
+                Console.WriteLine($"{Dpad}   =================================");
+                Console.WriteLine($"{Dpad}        CREATE A NEW REQUEST        ");
+                Console.WriteLine($"{Dpad}   =================================");
+                Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
+                Console.WriteLine($"{Dpad} 1. Title: {title}");
+                Console.WriteLine($"{Dpad} 2. Description: {description}");
 
-                Console.Write("3. Items Needed: ");
+                Console.Write($"{Dpad}3. Items Needed: ");
                 if (itemsList.Count == 0)
                 {
                     Console.WriteLine("[None Added]");
@@ -625,34 +652,52 @@ namespace FinalsProg_DSA_HCI
                     Console.WriteLine();
                     for (int i = 0; i < itemsList.Count; i++)
                     {
-                        Console.WriteLine($"   {i + 1}. {itemsList[i]}");
+                        Console.WriteLine($"{Dpad}   {i + 1}. {itemsList[i]}");
                     }
                 }
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("4. Submit and Save Request");
-                Console.WriteLine("5. Cancel and Exit");
-                Console.WriteLine("---------------------------------");
-                Console.Write("Select an option (1-5): ");
+                Console.WriteLine($"{Dpad}╠══════════════════════════════════════╣");
+                Console.WriteLine($"{Dpad}║ [4] Submit Request                   ║");
+                Console.WriteLine($"{Dpad}║ [5] Cancel                           ║");
+                Console.WriteLine($"{Dpad}╚══════════════════════════════════════╝");
+                Console.Write($"{Dpad}Select an option (1-5): ");
 
                 string choice = Console.ReadLine()?.Trim();
 
                 if (choice == "1")
                 {
-                    Console.Write("\nEnter Title: ");
+                    Console.Write($"{Dpad}\nEnter Title: ");
                     string input = Console.ReadLine()?.Trim();
-                    if (!string.IsNullOrEmpty(input)) title = input;
+                    if (!string.IsNullOrEmpty(input))
+                    {
+                        title = input;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{Dpad}Fill in the blanks please. Press any key to continue;");
+                        Console.ReadKey();
+                        continue;
+                    }
                 }
                 else if (choice == "2")
                 {
-                    Console.Write("\nEnter Description: ");
+                    Console.Write($"{Dpad}\nEnter Description: ");
                     string input = Console.ReadLine()?.Trim();
-                    if (!string.IsNullOrEmpty(input)) description = input;
+                    if (!string.IsNullOrEmpty(input))
+                    {
+                        description = input;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{Dpad}Fill in the blanks please. Press any key to continue");
+                        Console.ReadKey();
+                        continue;
+                    }
                 }
                 else if (choice == "3")
                 {
                     itemsList.Clear();
-                    Console.WriteLine("\nEnter items sequentially. Press [Enter] after each item.");
-                    Console.WriteLine("Type 'X' and press [Enter] when finished.\n");
+                    Console.WriteLine($"{Dpad}\nEnter items sequentially. Press [Enter] after each item.");
+                    Console.WriteLine($"{Dpad}Type 'X' and press [Enter] when finished.\n");
 
                     int itemCounter = 1;
                     while (true)
@@ -670,10 +715,46 @@ namespace FinalsProg_DSA_HCI
                             itemsList.Add(itemInput);
                             itemCounter++;
                         }
+                        else
+                        {
+                            Console.WriteLine($"{Dpad}Fill in the blanks please. Press any key to continue");
+                            Console.ReadKey();
+                            continue;
+                        }
                     }
                 }
                 else if (choice == "4")
                 {
+                    if (string.IsNullOrWhiteSpace(title))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{Dpad}\nTitle cannot be empty!");
+                        Console.ResetColor();
+                        Console.WriteLine($"{Dpad}Press any key to continue...");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(description))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{Dpad}\nDescription cannot be empty!");
+                        Console.ResetColor();
+                        Console.WriteLine($"{Dpad}Press any key to continue...");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    if (itemsList.Count == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{Dpad}\nPlease add at least one item.");
+                        Console.ResetColor();
+                        Console.WriteLine($"{Dpad}Press any key to continue...");
+                        Console.ReadKey();
+                        continue;
+                    }
+
                     string finalizedTicket = "Posted by: " + currentLoggedInUser + "\n" +
                                              "Title: " + title + "\n" +
                                              "Description: " + description + "\n" +
@@ -693,11 +774,10 @@ namespace FinalsProg_DSA_HCI
 
                     RequestListmaker.Add(finalizedTicket);
 
-                    string filePayload = finalizedTicket + "=========================\n";
-                    File.AppendAllText(RequestsFilePath, filePayload);
+                    File.AppendAllText(RequestsFilePath,finalizedTicket.TrimEnd() +Environment.NewLine + "=========================" +Environment.NewLine);
 
-                    Console.WriteLine("\nYour request has been saved successfully!");
-                    Console.WriteLine("Press any key to return to menu...");
+                    Console.WriteLine($"{Dpad}\nYour request has been saved successfully!");
+                    Console.WriteLine($"{Dpad}Press any key to return to menu...");
                     Console.ReadKey();
                     break;
                 }
@@ -708,7 +788,7 @@ namespace FinalsProg_DSA_HCI
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nInvalid option. Press any key to try again...");
+                    Console.WriteLine($"{Dpad}\nInvalid option. Press any key to try again...");
                     Console.ResetColor();
                     Console.ReadKey();
                 }
@@ -758,7 +838,18 @@ namespace FinalsProg_DSA_HCI
         static void ExecuteViewAccomplishedRequests()
         {
             Console.Clear();
-            Console.WriteLine("=== YOUR ACCOMPLISHED REQUESTS ===");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"{Dpad}========================================");
+            Console.WriteLine($"{Dpad}        ACCOMPLISHED REQUESTS           ");
+            Console.WriteLine($"{Dpad}========================================");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            bool hasRequests = false;
 
             if (File.Exists(AccomplishedFilePath))
             {
@@ -766,39 +857,41 @@ namespace FinalsProg_DSA_HCI
                 {
                     string[] parts = line.Split('|');
 
-                    // Check if this belongs to user
                     if (parts.Length >= 4 && parts[0] == currentLoggedInUser)
                     {
-                        Console.WriteLine($"Donor : {parts[1]}");
-                        Console.WriteLine($"Type  : {parts[2]}");
-                        Console.WriteLine($"Status: {parts[3]}");
+                        hasRequests = true;
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
+                        Console.WriteLine($"{Dpad}║ Donor  : {parts[1],-28}║");
+                        Console.WriteLine($"{Dpad}║ Type   : {parts[2],-28}║");
+                        Console.WriteLine($"{Dpad}║ Status : {parts[3],-28}║");
+
                         if (parts.Length >= 5)
                         {
-                            Console.WriteLine($"Message: {parts[4]}");
+                            Console.WriteLine($"{Dpad}╠══════════════════════════════════════╣");
+                            Console.WriteLine($"{Dpad}║ Message:                            ║");
+                            Console.WriteLine($"{Dpad}║ {parts[4],-36} ║");
                         }
-                        Console.WriteLine("--------------------");
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("No requests have been completed yet.");
-            }
 
-            if (File.Exists(AccomplishedFilePath))
-            {
-                foreach (string line in File.ReadAllLines(AccomplishedFilePath))
-                {
-                    string[] parts = line.Split('|');
+                        Console.WriteLine($"{Dpad}╚══════════════════════════════════════╝");
+                        Console.ResetColor();
+                        Console.WriteLine();
 
-                    if (parts.Length >= 4 && parts[0] == currentLoggedInUser)
-                    {
+                        // Save notification as read
                         File.AppendAllText(ReadNotificationsFilePath, line + Environment.NewLine);
                     }
                 }
             }
 
-            Console.WriteLine("\nPress any key to return...");
+            if (!hasRequests)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{Dpad}No accomplished requests found.");
+                Console.ResetColor();
+            }
+
+            Console.WriteLine($"{Dpad}\nPress any key to return...");
             Console.ReadKey();
         }
         static string Rankings(int points)
@@ -904,47 +997,77 @@ namespace FinalsProg_DSA_HCI
 
             int points = int.Parse(userDatabase[currentLoggedInUser][1]);
 
-            Console.WriteLine("┌──────────────────────────────┐");
-            Console.WriteLine($" Username : {currentLoggedInUser}");
-            Console.WriteLine($" Points   : {points}");
-            Console.WriteLine($" Rank     : {Rankings(points)}");
-            Console.WriteLine("└──────────────────────────────┘");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"{Dpad}╔════════════════════════════════════╗");
+            Console.WriteLine($"{Dpad}║            USER PROFILE            ║");
+            Console.WriteLine($"{Dpad}╠════════════════════════════════════╣");
+            Console.ResetColor();
 
+            Console.WriteLine($"{Dpad} Username : {currentLoggedInUser}");
+            Console.WriteLine($"{Dpad} Points   : {points}");
+            Console.WriteLine($"{Dpad} Rank     : {Rankings(points)}");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"{Dpad}╚════════════════════════════════════╝");
+            Console.ResetColor();
+
+            Console.WriteLine();
+
+            // ACHIEVEMENTS SECTION HEADER
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nAchievements");
+            Console.WriteLine($"{Dpad}╔════════════════════════════════════╗");
+            Console.WriteLine($"{Dpad}║           ACHIEVEMENTS             ║");
+            Console.WriteLine($"{Dpad}╚════════════════════════════════════╝");
             Console.ResetColor();
 
             foreach (string achievement in GetAchievements(points))
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"✓ {achievement}");
+                Console.WriteLine($"{Dpad} ✓ {achievement}");
                 Console.ResetColor();
             }
 
-            Console.WriteLine("\n=== RANK TIERS ===");
-            Console.WriteLine("Bronze Donor   - 0 Points");
-            Console.WriteLine("Silver Donor   - 50 Points");
-            Console.WriteLine("Gold Donor     - 100 Points");
-            Console.WriteLine("Platinum Donor - 200 Points");
-            Console.WriteLine("Emerald Donor  - 500 Points");
-            Console.WriteLine("Diamond Donor  - 1000 Points");
-            Console.WriteLine("Global Donor   - 2000 Points\n\n");
+            Console.WriteLine();
+
+            // RANK TIERS HEADER
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{Dpad}╔════════════════════════════════════╗");
+            Console.WriteLine($"{Dpad}║            RANK TIERS              ║");
+            Console.WriteLine($"{Dpad}╚════════════════════════════════════╝");
+            Console.ResetColor();
+
+            Console.WriteLine($"{Dpad}Bronze Donor   - 0 Points");
+            Console.WriteLine($"{Dpad}Silver Donor   - 50 Points");
+            Console.WriteLine($"{Dpad}Gold Donor     - 100 Points");
+            Console.WriteLine($"{Dpad}Platinum Donor - 200 Points");
+            Console.WriteLine($"{Dpad}Emerald Donor  - 500 Points");
+            Console.WriteLine($"{Dpad}Diamond Donor  - 1000 Points");
+            Console.WriteLine($"{Dpad}Global Donor   - 2000 Points");
+
+            Console.WriteLine();
+
+            // FULL ACHIEVEMENT LIST
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{Dpad}╔════════════════════════════════════╗");
+            Console.WriteLine($"{Dpad}║        ALL ACHIEVEMENTS            ║");
+            Console.WriteLine($"{Dpad}╚════════════════════════════════════╝");
+            Console.ResetColor();
 
             string[] achievements =
-                {
-                        "First Donation|10",
-                        "Helping Hand|50",
-                        "Fellow Volunteers|80",
-                        "Community Helper|100",
-                        "Contributor to the Need|200",
-                        "The Benefactor|300",
-                        "A Patron to Society|400",
-                        "The Philanthropist|500",
-                        "The Altruistic Friend|650",
-                        "The Helping Champion|800",
-                        "Mr Beast|1000",
-                        "Greatest of All Time|1500"
-                    };
+            {
+                            "First Donation|10",
+                            "Helping Hand|50",
+                            "Fellow Volunteers|80",
+                            "Community Helper|100",
+                            "Contributor to the Need|200",
+                            "The Benefactor|300",
+                            "A Patron to Society|400",
+                            "The Philanthropist|500",
+                            "The Altruistic Friend|650",
+                            "The Helping Champion|800",
+                            "Mr Beast|1000",
+                            "Greatest of All Time|1500"
+            };
 
             foreach (string achievement in achievements)
             {
@@ -954,42 +1077,65 @@ namespace FinalsProg_DSA_HCI
 
                 string status = points >= requiredPoints ? "[UNLOCKED]" : "[LOCKED]";
 
-                Console.WriteLine($"{status,-11} {name} ({requiredPoints} pts)");
+                Console.WriteLine($"{Dpad}{status,-12} {name} ({requiredPoints} pts)");
             }
-
 
             Console.ReadKey();
         }
         static void DeleteRequests(List<string> RequestListmaker)
         {
             Console.Clear();
-            Console.WriteLine("Choose a request you made that you want to remove:");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
+            Console.ResetColor();
+            Console.WriteLine($"{Dpad}Choose a request you made that you want to remove:");
 
             List<int> userRequestIndexes = new List<int>();
 
             for (int i = 0; i < RequestListmaker.Count; i++)
             {
+                string cleanRequest = RequestListmaker[i].Replace("=========================", "").Trim();
                 string[] ticketLines = RequestListmaker[i].Split('\n');
 
-                if (ticketLines.Length > 0 &&
-                    ticketLines[0].Contains("Posted by:") &&
-                    ticketLines[0].Replace("Posted by:", "").Trim() == currentLoggedInUser)
+                string postedBy = "";
+
+                foreach (string line in ticketLines)
+                {
+                    if (line.StartsWith("Posted by:"))
+                    {
+                        postedBy = line.Replace("Posted by:", "").Trim();
+                        break;
+                    }
+                }
+
+                if (postedBy == currentLoggedInUser)
                 {
                     userRequestIndexes.Add(i);
 
-                    Console.WriteLine($"\nRequest #{userRequestIndexes.Count}");
-                    Console.WriteLine(RequestListmaker[i]);
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"{Dpad}╔═══════════════════════════════════════╗");
+                    Console.WriteLine($"{Dpad} REQUEST #{userRequestIndexes.Count}");
+                    Console.WriteLine($"{Dpad}╠═══════════════════════════════════════╣");
+
+                    foreach (string line in cleanRequest.Split('\n'))
+                    {
+                        Console.WriteLine($"{Dpad}{line}");
+                    }
+
+                    Console.WriteLine($"{Dpad}╚═══════════════════════════════════════╝");
+                    Console.WriteLine();
+                    Console.ResetColor();
                 }
             }
 
             if (userRequestIndexes.Count == 0)
             {
-                Console.WriteLine("\nYou have no requests to delete.");
+                Console.WriteLine($"{Dpad}\nYou have no requests to delete.");
                 Console.ReadKey();
                 return;
             }
 
-            Console.Write("\nEnter request number to delete (0 to cancel): ");
+            Console.Write($"{Dpad}\nEnter request number to delete (0 to cancel): ");
 
             try
             {
@@ -1003,7 +1149,7 @@ namespace FinalsProg_DSA_HCI
                 if (choice < 1 || choice > userRequestIndexes.Count)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nInvalid selection.");
+                    Console.WriteLine($"{Dpad}\nInvalid selection.");
                     Console.ResetColor();
                     Console.ReadKey();
                     return;
@@ -1015,25 +1161,63 @@ namespace FinalsProg_DSA_HCI
                 RequestListmaker.RemoveAt(targetIndex);
 
                 // Rewrite requests file
+
                 File.WriteAllText(RequestsFilePath, "");
 
                 foreach (string ticket in RequestListmaker)
                 {
-                    File.AppendAllText(RequestsFilePath,
-                        ticket + "=========================\n");
+                    File.AppendAllText(
+                        RequestsFilePath,
+                        ticket.TrimEnd() +
+                        Environment.NewLine +
+                        "=========================" +
+                        Environment.NewLine);
                 }
 
-                Console.WriteLine("\nRequest deleted successfully.");
+                Console.WriteLine($"{Dpad}\nRequest deleted successfully.");
             }
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nInvalid input. Expected a valid number entry.");
+                Console.WriteLine($"{Dpad}\nInvalid input. Expected a valid number entry.");
                 Console.ResetColor();
             }
 
-            Console.WriteLine("\nPress any key to return...");
+            Console.WriteLine($"{Dpad}\nPress any key to return...");
             Console.ReadKey();
+        }
+        static string ReadPassword()
+        {
+            string password = "";
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+
+                // Ignore Enter
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+
+                // Handle Backspace
+                if (key.Key == ConsoleKey.Backspace)
+                {
+                    if (password.Length > 0)
+                    {
+                        password = password.Substring(0, password.Length - 1);
+                        Console.Write("\b \b");
+                    }
+                }
+                else
+                {
+                    password += key.KeyChar;
+                    Console.Write("*");
+                }
+
+            } while (true);
+
+            Console.WriteLine();
+            return password;
         }
     }
 }
