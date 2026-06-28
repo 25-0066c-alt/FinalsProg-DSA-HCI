@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FinalsProg_DSA_HCI
 {
@@ -17,7 +18,6 @@ namespace FinalsProg_DSA_HCI
         static string AccomplishedFilePath = "accomplished.txt"; //for history
         static string ReadNotificationsFilePath = "readnotifications.txt"; //forlogin notifications
         static string pad = new string('\t', 11);
-        static string smallpad = new string('\t', 10);
         static string Apad = new string('\t', 8);
         static string Bpad = new string('\t', 7);
         static string Cpad = new string('\t', 6);
@@ -203,15 +203,16 @@ namespace FinalsProg_DSA_HCI
 
                 if (hasAccount == 'Y')
                 {
-                    if (LoginProcess())
-                    {
-                        return false;
-                    }
+                    return !LoginProcess();
                 }
                 else if (hasAccount == 'N')
                 {
-                    SignUpProcess();
-                    return true;
+                    if (SignUpProcess())
+                    {
+                        return false; 
+                    }
+
+                    return true; // User cancelled signup
                 }
 
                 Console.WriteLine($"\n{Bpad}Invalid input. Please type Y or N.");
@@ -225,7 +226,7 @@ namespace FinalsProg_DSA_HCI
             Console.Clear();
             return true;
         }
-        static void SignUpProcess()
+        static bool SignUpProcess()
         {
             Console.Clear();
             while (true)
@@ -260,12 +261,31 @@ namespace FinalsProg_DSA_HCI
             {
                 Console.Clear();
                 Accountcreationdisplay();
-                Console.WriteLine($"\n\n{Cpad}[Creating New Account]");
-                Console.Write($"\n\n{Cpad}Enter Username: ");
+                Console.WriteLine($"\n{Dpad}Welcome to Donor's Drive!" +
+                                  $"\r\n{Dpad}Let’s get you set up. Creating an account allows " +
+                                  $"\r\n{Dpad}you to post requests, fulfill donations, and earn " +
+                                  $"\r\n{Dpad}points on our community leaderboard. ");
+
+                Console.WriteLine($"\n\n{Dpad}[Creating New Account]");
+                Console.WriteLine($"\r\n{Bpad}Caution: Username and Password are Case Sensitive\n");
+                Console.Write($"\n{Dpad}Enter Username: ");
                 string user = Console.ReadLine()?.Trim();
 
-                Console.Write($"\n\n{Cpad}Enter Password: ");
+                if (user.ToUpper() == "X")
+                {
+                    Console.WriteLine($"\n{Dpad}Returning to main menu...");
+                    Thread.Sleep(2000);
+                    return false; // Return to the main menu
+                }
+
+                Console.Write($"\n\n{Dpad}Enter Password: ");
                 string pass = ReadPassword();
+                if (pass.ToUpper() == "X")
+                {
+                    Console.WriteLine($"\n{Dpad}Cancelling account creation. Returning to main menu...");
+                    Thread.Sleep(2000);
+                    return false; // Return to the main menu
+                }
 
                 if (userDatabase.ContainsKey(user) || string.IsNullOrEmpty(user))
                 {
@@ -277,10 +297,13 @@ namespace FinalsProg_DSA_HCI
                 userDatabase.Add(user, new string[] { pass, "0" });
                 File.AppendAllText(DatabaseFilePath, $"{user},{pass},0\n");
 
-                Console.WriteLine($"\n\n{Dpad}Registration Successful! Press any key to continue");
-                Console.ReadKey();
-                Console.Clear();
-                return;
+                currentLoggedInUser = user;
+
+                Console.WriteLine($"\n\n{Dpad}Registration Successful!");
+                Console.WriteLine($"{Dpad}Logging you in...");
+                Thread.Sleep(2000);
+
+                return true;
             }
         }
         static bool LoginProcess()
@@ -289,12 +312,31 @@ namespace FinalsProg_DSA_HCI
             while (true)
             {
                 logindisplay();
-                Console.WriteLine($"\n\n{Apad}[Login Session]");
-                Console.Write($"\n\n{Apad}Enter Username: ");
+                Console.WriteLine($"\n{Bpad}Ready to make a difference today?" +
+                                  $"\r\n{Bpad}Log in to view active requests and connect" +
+                                  $"\r\n{Bpad}with your community.");
+                                  
+                Console.WriteLine($"\n\n{Bpad}[Login Session]");
+                Console.WriteLine($"\r\n{Bpad}Caution: Username and Password are Case Sensitive\n");
+                Console.Write($"\n{Bpad}Enter Username: ");
                 string user = Console.ReadLine().Trim();
 
-                Console.Write($"\n\n{Apad}Enter Password: ");
+                if (user.ToUpper() == "X")
+                {
+                    Console.WriteLine($"\n{Bpad}Returning to main menu...");
+                    Thread.Sleep(2000);
+                    return false; // Return to the main menu
+                }
+
+                Console.Write($"\n\n{Bpad}Enter Password: ");
                 string pass = ReadPassword();
+
+                if (pass.ToUpper() == "X")
+                {
+                    Console.WriteLine($"\n{Bpad}Returning to main menu...");
+                    Thread.Sleep(2000);
+                    return false;
+                }
 
                 if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
                 {
@@ -328,7 +370,7 @@ namespace FinalsProg_DSA_HCI
 
             Console.ResetColor();
 
-            Console.WriteLine();
+            Console.WriteLine($"\n{Dpad}Input from 1-8 to choose your destination");
 
             Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
             Console.WriteLine($"{Dpad}║              MAIN MENU               ║");
@@ -342,6 +384,7 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine($"{Dpad}║ [7] Delete Request                   ║");
             Console.WriteLine($"{Dpad}║ [8] Logout                           ║");
             Console.WriteLine($"{Dpad}╚══════════════════════════════════════╝");
+            Console.WriteLine($"{Dpad}Your input:");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
@@ -596,7 +639,7 @@ namespace FinalsProg_DSA_HCI
 
             if (RequestListmaker.Count == 0)
             {
-                Console.WriteLine($"{Dpad}\nNo active requests found at this time.");
+                Console.WriteLine($"\n{Dpad}No active requests found at this time.");
             }
             else
             {
@@ -635,6 +678,7 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"{Dpad}   =================================");
                 Console.WriteLine($"{Dpad}        CREATE A NEW REQUEST        ");
                 Console.WriteLine($"{Dpad}   =================================");
+
                 Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
                 Console.WriteLine($"{Dpad} 1. Title: {title}");
                 Console.WriteLine($"{Dpad} 2. Description: {description}");
@@ -867,8 +911,8 @@ namespace FinalsProg_DSA_HCI
                         if (parts.Length >= 5)
                         {
                             Console.WriteLine($"{Dpad}╠══════════════════════════════════════╣");
-                            Console.WriteLine($"{Dpad}║ Message:                            ║");
-                            Console.WriteLine($"{Dpad}║ {parts[4],-36} ║");
+                            Console.WriteLine($"{Dpad}  Message:                            ");
+                            Console.WriteLine($"{Dpad} {parts[4],-36} ║");
                         }
 
                         Console.WriteLine($"{Dpad}╚══════════════════════════════════════╝");
@@ -888,7 +932,7 @@ namespace FinalsProg_DSA_HCI
                 Console.ResetColor();
             }
 
-            Console.WriteLine($"{Dpad}\nPress any key to return...");
+            Console.WriteLine($"\n{Dpad}Press any key to return...");
             Console.ReadKey();
         }
         static string Rankings(int points)
@@ -1085,6 +1129,9 @@ namespace FinalsProg_DSA_HCI
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"{Dpad} User: {currentLoggedInUser} | Points: {userDatabase[currentLoggedInUser][1]}");
             Console.ResetColor();
+            Console.WriteLine($"{Dpad}   =================================");
+            Console.WriteLine($"{Dpad}         DELETE A REQUEST         ");
+            Console.WriteLine($"{Dpad}   =================================");
             Console.WriteLine($"{Dpad}Choose a request you made that you want to remove:");
 
             List<int> userRequestIndexes = new List<int>();
@@ -1127,12 +1174,12 @@ namespace FinalsProg_DSA_HCI
 
             if (userRequestIndexes.Count == 0)
             {
-                Console.WriteLine($"{Dpad}\nYou have no requests to delete.");
+                Console.WriteLine($"\n{Dpad}You have no requests to delete.");
                 Console.ReadKey();
                 return;
             }
 
-            Console.Write($"{Dpad}\nEnter request number to delete (0 to cancel): ");
+            Console.Write($"\n{Dpad}Enter request number to delete (0 to cancel): ");
 
             try
             {
@@ -1171,16 +1218,16 @@ namespace FinalsProg_DSA_HCI
                         Environment.NewLine);
                 }
 
-                Console.WriteLine($"{Dpad}\nRequest deleted successfully.");
+                Console.WriteLine($"\n{Dpad}Request deleted successfully.");
             }
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{Dpad}\nInvalid input. Expected a valid number entry.");
+                Console.WriteLine($"\n{Dpad}Invalid input. Expected a valid number entry.");
                 Console.ResetColor();
             }
 
-            Console.WriteLine($"{Dpad}\nPress any key to return...");
+            Console.WriteLine($"\n{Dpad}Press any key to return...");
             Console.ReadKey();
         }
         static string ReadPassword()
