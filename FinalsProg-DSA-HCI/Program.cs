@@ -267,7 +267,7 @@ namespace FinalsProg_DSA_HCI
                                   $"\r\n{Dpad}points on our community leaderboard. ");
 
                 Console.WriteLine($"\n\n{Dpad}[Creating New Account]");
-                Console.WriteLine($"\r\n{Bpad}Caution: Username and Password are Case Sensitive\n");
+                Console.WriteLine($"\r\n{Dpad}Caution: Username and Password are Case Sensitive\n{Dpad}Press 'x' to return");
                 Console.Write($"\n{Dpad}Enter Username: ");
                 string user = Console.ReadLine()?.Trim();
 
@@ -317,7 +317,7 @@ namespace FinalsProg_DSA_HCI
                                   $"\r\n{Bpad}with your community.");
                                   
                 Console.WriteLine($"\n\n{Bpad}[Login Session]");
-                Console.WriteLine($"\r\n{Bpad}Caution: Username and Password are Case Sensitive\n");
+                Console.WriteLine($"\r\n{Bpad}Caution: Username and Password are Case Sensitive\n{Bpad}Press 'x' to return");
                 Console.Write($"\n{Bpad}Enter Username: ");
                 string user = Console.ReadLine().Trim();
 
