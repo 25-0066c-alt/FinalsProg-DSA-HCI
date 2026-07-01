@@ -406,9 +406,9 @@ namespace FinalsProg_DSA_HCI
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{pad}\nInvalid input. Please type 1 to 8.");
+                    Console.WriteLine($"\n{Dpad}Invalid input. Please type 1 to 8.");
                     Console.ResetColor();
-                    Console.WriteLine($"{pad}Press any key to try again...");
+                    Console.WriteLine($"{Dpad}Press any key to try again...");
                     Console.ReadKey();
                     return 0;
                 }
@@ -416,9 +416,9 @@ namespace FinalsProg_DSA_HCI
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{pad}\nInvalid input. Please type a valid number.");
+                Console.WriteLine($"\n{Dpad}Invalid input. Please type a valid number.");
                 Console.ResetColor();
-                Console.WriteLine($"{pad}Press any key to try again...");
+                Console.WriteLine($"{Dpad}Press any key to try again...");
                 Console.ReadKey();
                 return 0;
             }
