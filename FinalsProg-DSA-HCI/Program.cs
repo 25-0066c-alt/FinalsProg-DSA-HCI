@@ -183,7 +183,7 @@ namespace FinalsProg_DSA_HCI
                                 ExecuteViewAccomplishedRequests();
                                 break;
                             case 8:
-                                Console.WriteLine("\nLogging out... Returning to Authentication screen.");
+                                Console.WriteLine($"\n{Dpad}Logging out... Returning to Authentication screen.");
                                 Thread.Sleep(2000);
                                 currentLoggedInUser = ""; // reset tracker
                                 userIsLoggedIn = false;
@@ -550,7 +550,7 @@ namespace FinalsProg_DSA_HCI
 
                     // thank you note with achievements
                     Console.WriteLine($"\n{Dpad}Thank you for donating! You completed the request.");
-                    Console.WriteLine($"{Dpad}You gained +10 points! you now have {currentPoints}. Check rankings to see your spot.\n");
+                    Console.WriteLine($"{Dpad}You gained +10 points! you now have {currentPoints} points. Check rankings to see your spot.\n");
                     if (currentPoints == 10)
                     {
                         Console.WriteLine($"{Dpad}Achievement Unlocked: First Donation!");
