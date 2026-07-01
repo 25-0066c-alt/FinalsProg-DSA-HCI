@@ -200,7 +200,9 @@ namespace FinalsProg_DSA_HCI
                           $"\n{Dpad}Give: Donate to those in need." +
                           $"\n{Dpad}Receive: Request help from our community." +
                           $"\n{Dpad}Earn: Get points for every good deed." +
-                          $"\n{Dpad}Compete: Top the worldwide leaderboards!");
+                          $"\n{Dpad}Compete: Top the worldwide leaderboards!" +
+                          $"\n{Dpad}Contribute: To No Poverty (SDG 1)," +
+                          $"\n{Dpad}Good Health (SDG 3), Reduced Inequalities(SDG 10)");
             Console.Write($"\n\n{Dpad} ---->  Do you have an account? (Y/N): ");
             try
             {
