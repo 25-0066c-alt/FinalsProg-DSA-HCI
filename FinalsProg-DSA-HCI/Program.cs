@@ -180,8 +180,8 @@ namespace FinalsProg_DSA_HCI
                                 break;
                             case 8:
                                 Console.WriteLine("\nLogging out... Returning to Authentication screen.");
-                                Console.ReadKey();
-                                currentLoggedInUser = ""; // reset tracker for consistency
+                                Thread.Sleep(2000);
+                                currentLoggedInUser = ""; // reset tracker
                                 userIsLoggedIn = false;
                                 break;
                             default:
@@ -196,7 +196,12 @@ namespace FinalsProg_DSA_HCI
         {
             Console.Clear();
             title();
-            Console.Write($"\n{Dpad}\t ---->  Do you have an account? (Y/N): ");
+            Console.Write($"\n{Dpad}Welcome to Donor's Drive! where you can:" +
+                          $"\n{Dpad}Give: Donate to those in need." +
+                          $"\n{Dpad}Receive: Request help from our community." +
+                          $"\n{Dpad}Earn: Get points for every good deed." +
+                          $"\n{Dpad}Compete: Top the worldwide leaderboards!");
+            Console.Write($"\n\n{Dpad} ---->  Do you have an account? (Y/N): ");
             try
             {
                 char hasAccount = char.ToUpper(Convert.ToChar(Console.ReadLine()));
@@ -267,9 +272,9 @@ namespace FinalsProg_DSA_HCI
                                   $"\r\n{Dpad}points on our community leaderboard. ");
 
                 Console.WriteLine($"\n\n{Dpad}[Creating New Account]");
-                Console.WriteLine($"\r\n{Dpad}Caution: Username and Password are Case Sensitive\n{Dpad}Press 'x' to return");
+                Console.WriteLine($"\r\n{Dpad}Caution: Username and Password are Case Sensitive and don't use of commas\n{Dpad}Press 'x' to return");
                 Console.Write($"\n{Dpad}Enter Username: ");
-                string user = Console.ReadLine()?.Trim();
+                string user = Console.ReadLine()?.Trim() ?? "";
 
                 if (user.ToUpper() == "X")
                 {
@@ -293,7 +298,12 @@ namespace FinalsProg_DSA_HCI
                     Console.ReadKey();
                     continue;
                 }
-
+                if (string.IsNullOrEmpty(pass))
+                {
+                    Console.WriteLine($"\n\n{Dpad} Password invalid. Press any key to try again.");
+                    Console.ReadKey();
+                    continue;
+                }
                 userDatabase.Add(user, new string[] { pass, "0" });
                 File.AppendAllText(DatabaseFilePath, $"{user},{pass},0\n");
 
@@ -319,7 +329,7 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"\n\n{Bpad}[Login Session]");
                 Console.WriteLine($"\r\n{Bpad}Caution: Username and Password are Case Sensitive\n{Bpad}Press 'x' to return");
                 Console.Write($"\n{Bpad}Enter Username: ");
-                string user = Console.ReadLine().Trim();
+                string user = Console.ReadLine()?.Trim() ?? "";
 
                 if (user.ToUpper() == "X")
                 {
@@ -379,24 +389,24 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine($"{Dpad}║ [2] View Status & Ranking            ║");
             Console.WriteLine($"{Dpad}║ [3] View Requests                    ║");
             Console.WriteLine($"{Dpad}║ [4] Make Request                     ║");
-            Console.WriteLine($"{Dpad}║ [5] Completed Requests               ║");
+            Console.WriteLine($"{Dpad}║ [5] Completed by History             ║");
             Console.WriteLine($"{Dpad}║ [6] Profile                          ║");
             Console.WriteLine($"{Dpad}║ [7] Delete Request                   ║");
             Console.WriteLine($"{Dpad}║ [8] Logout                           ║");
             Console.WriteLine($"{Dpad}╚══════════════════════════════════════╝");
-            Console.WriteLine($"{Dpad}Your input:");
+            Console.Write($"\n{Dpad}Your input:");
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (choice >= 1 && choice <= 9)
+                if (choice >= 1 && choice <= 8)
                 {
                     return choice;
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{pad}\nInvalid input. Please type 1 to 6.");
+                    Console.WriteLine($"{pad}\nInvalid input. Please type 1 to 8.");
                     Console.ResetColor();
                     Console.WriteLine($"{pad}Press any key to try again...");
                     Console.ReadKey();
@@ -438,11 +448,7 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"{Dpad}╔═══════════════════════════════════════╗");
                 Console.WriteLine($"{Dpad}  REQUEST #{i + 1,-33}");
                 Console.WriteLine($"{Dpad}╠═══════════════════════════════════════╣");
-
-                foreach (string line in cleanRequest.Split('\n'))
-                {
-                    Console.WriteLine($"{Dpad}{line}");
-                }
+                PrintRequest(cleanRequest);
                 Console.WriteLine($"{Dpad}╚═══════════════════════════════════════╝");
                 Console.WriteLine();
                 Console.ResetColor();
@@ -483,9 +489,26 @@ namespace FinalsProg_DSA_HCI
                         return;
                     }
 
-                    //adds it to accomplished
-                    Console.Write($"{Dpad}Leave a message: ");
-                    string message = Console.ReadLine();
+                    // Confirmation before fulfilling
+                    Console.Write($"\n{Dpad}Are you sure you want to fulfill this request? (Y/N): ");
+                    string confirm = Console.ReadLine()?.Trim().ToUpper();
+
+                    if (confirm != "Y")
+                    {
+                        Console.WriteLine($"{Dpad}Fulfillment cancelled.");
+                        Console.WriteLine($"{Dpad}Press any key to return...");
+                        Console.ReadKey();
+                        return;
+                    }
+
+                    // Leave a message
+                    Console.Write($"{Dpad}Leave a message (optional): ");
+                    string message = Console.ReadLine()?.Trim();
+
+                    if (string.IsNullOrWhiteSpace(message))
+                    {
+                        message = "No message.";
+                    }
 
                     File.AppendAllText(AccomplishedFilePath,
                         $"{originalRequester}|{currentLoggedInUser}|Donation Pack|Completed|{message}\n");
@@ -513,7 +536,7 @@ namespace FinalsProg_DSA_HCI
                     }
 
                     Console.WriteLine($"\n{Dpad}Thank you for donating! You completed the request.");
-                    Console.WriteLine($"{Dpad}You gained +10 points! Check rankings to see your spot.\n");
+                    Console.WriteLine($"{Dpad}You gained +10 points! you now have {currentPoints}. Check rankings to see your spot.\n");
                     if (currentPoints == 10)
                     {
                         Console.WriteLine($"{Dpad}Achievement Unlocked: First Donation!");
@@ -651,11 +674,7 @@ namespace FinalsProg_DSA_HCI
                     Console.WriteLine($"{Dpad}╔═══════════════════════════════════════╗");
                     Console.WriteLine($"{Dpad}REQUEST #{i + 1}");
                     Console.WriteLine($"{Dpad}╠═══════════════════════════════════════╣");
-
-                    foreach (string line in cleanRequest.Split('\n'))
-                    {
-                        Console.WriteLine($"{Dpad}{line}");
-                    }
+                    PrintRequest(cleanRequest);
                     Console.WriteLine($"{Dpad}╚═══════════════════════════════════════╝");
                     Console.WriteLine();
                     Console.ResetColor();
@@ -680,10 +699,9 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"{Dpad}   =================================");
 
                 Console.WriteLine($"{Dpad}╔══════════════════════════════════════╗");
-                Console.WriteLine($"{Dpad} 1. Title: {title}");
-                Console.WriteLine($"{Dpad} 2. Description: {description}");
-
-                Console.Write($"{Dpad} 3. Items Needed: ");
+                PrintWrapped($"1. Title: ", title, 30);
+                PrintWrapped($"2. Description: ", description, 30);
+                Console.Write($"{Dpad}3. Items Needed: ");
                 if (itemsList.Count == 0)
                 {
                     Console.WriteLine("[None Added]");
@@ -693,7 +711,7 @@ namespace FinalsProg_DSA_HCI
                     Console.WriteLine();
                     for (int i = 0; i < itemsList.Count; i++)
                     {
-                        Console.WriteLine($"{Dpad}   {i + 1}. {itemsList[i]}");
+                        PrintWrapped($"{i + 1}. ", itemsList[i], 30);
                     }
                 }
                 Console.WriteLine($"{Dpad}╠══════════════════════════════════════╣");
@@ -706,60 +724,110 @@ namespace FinalsProg_DSA_HCI
 
                 if (choice == "1")
                 {
-                    Console.Write($"{Dpad}\nEnter Title: ");
-                    string input = Console.ReadLine()?.Trim();
-                    if (!string.IsNullOrEmpty(input))
+                    while (true)
                     {
+                        Console.Clear();
+                        Console.WriteLine($"{Dpad}   =================================");
+                        Console.WriteLine($"{Dpad}            CREATE A TITLE          ");
+                        Console.WriteLine($"{Dpad}   =================================");
+                        Console.Write($"\n{Epad}Enter Title (Max 50 characters): ");
+                        string input = Console.ReadLine()?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(input))
+                        {
+                            Console.WriteLine($"{Epad}Title cannot be empty.");
+                            Console.ReadKey();
+                            continue;
+                        }
+
+                        if (input.Length > 50)
+                        {
+                            Console.WriteLine($"{Epad}Title is too long! ({input.Length}/50)");
+                            Console.ReadKey();
+                            continue;
+                        }
+
                         title = input;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{Dpad}Fill in the blanks please. Press any key to continue;");
-                        Console.ReadKey();
-                        continue;
+                        break;
                     }
                 }
                 else if (choice == "2")
                 {
-                    Console.Write($"{Dpad}\nEnter Description: ");
-                    string input = Console.ReadLine()?.Trim();
-                    if (!string.IsNullOrEmpty(input))
+                    while (true)
                     {
+                        Console.Clear();
+
+                        Console.WriteLine($"{Dpad}   =================================");
+                        Console.WriteLine($"{Dpad}         CREATE A DESCRIPTION       ");
+                        Console.WriteLine($"{Dpad}   =================================");
+
+                        Console.Write($"\n{Epad}Enter Description (Max 300 characters): ");
+                        string input = Console.ReadLine()?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(input))
+                        {
+                            Console.WriteLine($"{Epad}Description cannot be empty.");
+                            Console.WriteLine($"{Epad}Press any key to try again...");
+                            Console.ReadKey();
+                            continue;
+                        }
+                        if (input.Length > 300)
+                        {
+                            Console.WriteLine($"{Epad}Description is too long! ({input.Length}/300 characters)");
+                            Console.WriteLine($"{Epad}Press any key to try again...");
+                            Console.ReadKey();
+                            continue;
+                        }
                         description = input;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{Dpad}Fill in the blanks please. Press any key to continue");
-                        Console.ReadKey();
-                        continue;
+                        break;
                     }
                 }
                 else if (choice == "3")
                 {
                     itemsList.Clear();
-                    Console.WriteLine($"{Dpad}\nEnter items sequentially. Press [Enter] after each item.");
-                    Console.WriteLine($"{Dpad}Type 'X' and press [Enter] when finished.\n");
+                    Console.Clear();
+                    Console.WriteLine($"{Dpad}   =================================");
+                    Console.WriteLine($"{Dpad}             CREATE A LIST          ");
+                    Console.WriteLine($"{Dpad}   =================================");
+                    Console.WriteLine($"\n{Epad}Enter items sequentially. Press [Enter] after each item.");
+                    Console.WriteLine($"{Epad}Type 'X' and press [Enter] when finished.\n");
 
                     int itemCounter = 1;
                     while (true)
                     {
-                        Console.Write($"{itemCounter}. ");
+                        Console.Write($"{Epad}{itemCounter}. ");
                         string itemInput = Console.ReadLine()?.Trim();
 
-                        if (string.Equals(itemInput.ToUpper(), "X"))
+                        if (string.Equals(itemInput, "X", StringComparison.OrdinalIgnoreCase))
                         {
                             break;
                         }
 
-                        if (!string.IsNullOrEmpty(itemInput))
+                        if (string.IsNullOrWhiteSpace(itemInput))
                         {
-                            itemsList.Add(itemInput);
-                            itemCounter++;
+                            Console.WriteLine($"{Epad}Item cannot be empty.");
+                            Console.WriteLine($"{Epad}Press any key to try again...");
+                            Console.ReadKey();
+                            continue;
+                        }
+                        if (itemInput.Length > 50)
+                        {
+                            Console.WriteLine($"{Epad}Item is too long! ({itemInput.Length}/50 characters)");
+                            Console.WriteLine($"{Epad}Press any key to try again...");
+                            Console.ReadKey();
+                            continue;
+                        }
+                        if (itemsList.Count > 20)
+                        {
+                            Console.WriteLine($"{Epad}Item list is too long! ({itemInput.Length}/20 items)");
+                            Console.WriteLine($"{Epad}Press any key to try again...");
+                            Console.ReadKey();
+                            continue;
                         }
                         else
                         {
-                            Console.WriteLine($"{Dpad}Fill in the blanks please. Press any key to continue");
-                            Console.ReadKey();
+                            itemsList.Add(itemInput);
+                            itemCounter++;
                             continue;
                         }
                     }
@@ -769,7 +837,7 @@ namespace FinalsProg_DSA_HCI
                     if (string.IsNullOrWhiteSpace(title))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{Dpad}\nTitle cannot be empty!");
+                        Console.WriteLine($"\n{Dpad}Title cannot be empty!");
                         Console.ResetColor();
                         Console.WriteLine($"{Dpad}Press any key to continue...");
                         Console.ReadKey();
@@ -779,7 +847,7 @@ namespace FinalsProg_DSA_HCI
                     if (string.IsNullOrWhiteSpace(description))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{Dpad}\nDescription cannot be empty!");
+                        Console.WriteLine($"\n{Dpad}Description cannot be empty!");
                         Console.ResetColor();
                         Console.WriteLine($"{Dpad}Press any key to continue...");
                         Console.ReadKey();
@@ -789,7 +857,7 @@ namespace FinalsProg_DSA_HCI
                     if (itemsList.Count == 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{Dpad}\nPlease add at least one item.");
+                        Console.WriteLine($"\n{Dpad}Please add at least one item.");
                         Console.ResetColor();
                         Console.WriteLine($"{Dpad}Press any key to continue...");
                         Console.ReadKey();
@@ -829,7 +897,7 @@ namespace FinalsProg_DSA_HCI
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{Dpad}\nInvalid option. Press any key to try again...");
+                    Console.WriteLine($"\n{Dpad}Invalid option. Press any key to try again...");
                     Console.ResetColor();
                     Console.ReadKey();
                 }
@@ -875,6 +943,7 @@ namespace FinalsProg_DSA_HCI
                 Console.WriteLine($"{Bpad}     [NOTIFICATION] No new updates.");
             }
             Console.ResetColor();
+            Console.WriteLine($"{Bpad}       Press any key to continue");
         }
         static void ExecuteViewAccomplishedRequests()
         {
@@ -885,7 +954,7 @@ namespace FinalsProg_DSA_HCI
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"{Dpad}========================================");
-            Console.WriteLine($"{Dpad}        ACCOMPLISHED REQUESTS           ");
+            Console.WriteLine($"{Dpad}        Completed by History            ");
             Console.WriteLine($"{Dpad}========================================");
             Console.ResetColor();
             Console.WriteLine();
@@ -919,8 +988,19 @@ namespace FinalsProg_DSA_HCI
                         Console.ResetColor();
                         Console.WriteLine();
 
-                        // Save notification as read
-                        File.AppendAllText(ReadNotificationsFilePath, line + Environment.NewLine);
+                        // Load already-read notifications
+                        List<string> readEntries = new List<string>();
+
+                        if (File.Exists(ReadNotificationsFilePath))
+                        {
+                            readEntries = File.ReadAllLines(ReadNotificationsFilePath).ToList();
+                        }
+
+                        // Save notification only if it hasn't been saved before
+                        if (!readEntries.Contains(line))
+                        {
+                            File.AppendAllText(ReadNotificationsFilePath, line + Environment.NewLine);
+                        }
                     }
                 }
             }
@@ -982,7 +1062,7 @@ namespace FinalsProg_DSA_HCI
 
             if (points >= 80)
             {
-                achievements.Add("Fellow Voluntees");
+                achievements.Add("Fellow Volunteers");
             }
 
             if (points >= 100)
@@ -1035,8 +1115,8 @@ namespace FinalsProg_DSA_HCI
         static void ExecuteProfile()
         {
             Console.Clear();
-
             int points = int.Parse(userDatabase[currentLoggedInUser][1]);
+            List<string> unlocked = GetAchievements(points);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"{Dpad}╔════════════════════════════════════╗");
@@ -1051,7 +1131,7 @@ namespace FinalsProg_DSA_HCI
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"{Dpad}╚════════════════════════════════════╝");
             Console.ResetColor();
-
+            Console.WriteLine($"{Dpad}Press any key to return");
             Console.WriteLine();
 
             // ACHIEVEMENTS SECTION HEADER
@@ -1061,11 +1141,18 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine($"{Dpad}╚════════════════════════════════════╝");
             Console.ResetColor();
 
-            foreach (string achievement in GetAchievements(points))
+            if (unlocked.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{Dpad} ✓ {achievement}");
-                Console.ResetColor();
+                Console.WriteLine($"{Dpad}No achievements unlocked yet.");
+            }
+            else
+            {
+                foreach (string achievement in GetAchievements(points))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{Dpad} ✓ {achievement}");
+                    Console.ResetColor();
+                }
             }
 
             Console.WriteLine();
@@ -1120,7 +1207,6 @@ namespace FinalsProg_DSA_HCI
 
                 Console.WriteLine($"{Dpad}{status,-12} {name} ({requiredPoints} pts)");
             }
-
             Console.ReadKey();
         }
         static void DeleteRequests(List<string> RequestListmaker)
@@ -1230,6 +1316,8 @@ namespace FinalsProg_DSA_HCI
             Console.WriteLine($"\n{Dpad}Press any key to return...");
             Console.ReadKey();
         }
+
+        //Helper methods
         static string ReadPassword()
         {
             string password = "";
@@ -1262,6 +1350,37 @@ namespace FinalsProg_DSA_HCI
 
             Console.WriteLine();
             return password;
+        }
+        static void PrintWrapped(string prefix, string text, int width)
+        {
+            while (text.Length > width)
+            {
+                Console.WriteLine($"{Dpad}{prefix}{text.Substring(0, width)}");
+                text = text.Substring(width);
+                prefix = ""; // Indent next lines
+            }
+
+            Console.WriteLine($"{Dpad}{prefix}{text}");
+        }
+        static void PrintRequest(string request)
+        {
+            foreach (string line in request.Split('\n'))
+            {
+                if (line.StartsWith("Title: "))
+                {
+                    PrintWrapped("Title: ", line.Substring(7), 50);
+                }
+
+                else if (line.StartsWith("Description: "))
+                {
+                    PrintWrapped("Description: ", line.Substring(13), 50);
+                }
+
+                else
+                {
+                    Console.WriteLine($"{Dpad}{line}");
+                }
+            }
         }
     }
 }
